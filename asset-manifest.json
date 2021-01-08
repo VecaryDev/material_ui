@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/material_ui/static/css/main.42c1e487.chunk.css",
+    "main.js": "/material_ui/static/js/main.4430c020.chunk.js",
+    "main.js.map": "/material_ui/static/js/main.4430c020.chunk.js.map",
+    "runtime-main.js": "/material_ui/static/js/runtime-main.59adf946.js",
+    "runtime-main.js.map": "/material_ui/static/js/runtime-main.59adf946.js.map",
+    "static/js/2.95f0224b.chunk.js": "/material_ui/static/js/2.95f0224b.chunk.js",
+    "static/js/2.95f0224b.chunk.js.map": "/material_ui/static/js/2.95f0224b.chunk.js.map",
+    "static/js/3.0461e781.chunk.js": "/material_ui/static/js/3.0461e781.chunk.js",
+    "static/js/3.0461e781.chunk.js.map": "/material_ui/static/js/3.0461e781.chunk.js.map",
+    "index.html": "/material_ui/index.html",
+    "static/css/main.42c1e487.chunk.css.map": "/material_ui/static/css/main.42c1e487.chunk.css.map",
+    "static/js/2.95f0224b.chunk.js.LICENSE.txt": "/material_ui/static/js/2.95f0224b.chunk.js.LICENSE.txt",
+    "static/media/Download.07b3e5d6.svg": "/material_ui/static/media/Download.07b3e5d6.svg",
+    "static/media/PipetteColor.73af3dd3.svg": "/material_ui/static/media/PipetteColor.73af3dd3.svg",
+    "static/media/Reset.de0dc734.svg": "/material_ui/static/media/Reset.de0dc734.svg",
+    "static/media/Signs_ArrowDown_1.39a9aadd.svg": "/material_ui/static/media/Signs_ArrowDown_1.39a9aadd.svg",
+    "static/media/Signs_ArrowDown_3.3ac601ae.svg": "/material_ui/static/media/Signs_ArrowDown_3.3ac601ae.svg",
+    "static/media/Signs_Plus_1.921ad0ca.svg": "/material_ui/static/media/Signs_Plus_1.921ad0ca.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.59adf946.js",
+    "static/js/2.95f0224b.chunk.js",
+    "static/css/main.42c1e487.chunk.css",
+    "static/js/main.4430c020.chunk.js"
+  ]
+}
