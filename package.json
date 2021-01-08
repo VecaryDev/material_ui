@@ -1,7 +1,7 @@
 {
   "name": "material_ui",
   "version": "0.1.0",
-  "homepage": "https://vecarydev.github.io/material_ui",
+  "homepage": "https://vecarydev.github.io/material_ui/",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.0.0",

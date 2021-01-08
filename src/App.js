@@ -8,6 +8,11 @@ import LabeledInput from "./containers/LabeledInput"
 
 import { v4 as uuidv4 } from 'uuid';
 
+import Background from "./img/Background.png"
+import Toolbar from "./img/toolbar.png"
+import Navbar from "./img/navBar.png"
+import leftSideBar from "./img/leftSidebar.png"
+
 import MaterialList  from "./containers/MaterialList"
 
 import {TexturePorpertyContext} from "./context/texturePropertyContext"
@@ -52,14 +57,20 @@ function App() {
   return (
     <div  className="App font-inter overflow-hidden transition-none ">
 
-      <div id="MenuBar" className="w-full h_56 bg-primary z-10 relative"></div>
+      <div id="MenuBar" className="w-full h_56 bg-primary z-10 relative" style={{ background: `url(${Navbar}) no-repeat center top/contain`}}></div>
       <div id="Workspace" className="flex">
 
         <div id="leftSidebarAnd3DSpace" className="w-full h-screen">
-          <div id="toolbar" className="w-full h_40 bg-primaryLight"></div>
+          <div id="toolbar" className="w-full h_40 bg-primaryLight" style={{ background: `url(${Toolbar}) no-repeat center top/cover`}}></div>
           <div className="w-full h-full flex">
-              <div id="leftSideBar" className="w_prop h-full bg-almostWhite"></div>
-              <div id="3DSpace" ref={WorkSpaceRef} className=" h-full bg-almostBlack p-3" style={{width: "calc(100% - 248px)", height: "calc(100% )"}}>
+              <div id="leftSideBar" className="w_prop h-full bg-almostWhite" style={{ background: `url(${leftSideBar}) no-repeat center top/contain`}}></div>
+              <div id="3DSpace" ref={WorkSpaceRef} className=" h-full bg-almostBlack p-3" style={{
+                width: "calc(100% - 248px)", 
+                height: "calc(100% )",
+                background: `url(${Background}) no-repeat center bottom/cover`
+                }}>
+
+
                 <TexturePopup />
               </div>
           </div>

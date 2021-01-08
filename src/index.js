@@ -5,12 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import {TexturePoropertyProvider} from "./context/texturePropertyContext"
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
 
 const reload = () => window.location.reload()
 
@@ -18,12 +12,9 @@ ReactDOM.render(
   <React.StrictMode >
     
     <TexturePoropertyProvider>
-      <Router>
-        <Switch>
-            <Route path="/" exact component={App} />
-            <Route path="/imported/materialList.html" onEnter={reload} />
-        </Switch>
-      </Router>
+      
+            <App />
+      
     </TexturePoropertyProvider>
     
   </React.StrictMode>,
