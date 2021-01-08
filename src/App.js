@@ -120,15 +120,8 @@ function App() {
                   
                     <LabeledSwitch label="Double Sided Material"  padding={true}/>
 
-                    <div>
-                      Advanced Options
-                    </div>
-
-                    <div>
-                    <TextSlider  propName="Normal" active={true} decimal={false} maximum={100} unit={"%"}/>
                     
-                    <LabeledInput id={uuidv4()}  label="Hello"  labelType="title"   hasButton={true} input={defaultInputs.double()} />
-                    </div>
+
                    
                    
 
