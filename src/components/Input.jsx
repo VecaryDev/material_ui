@@ -19,7 +19,7 @@ function Input(props) {
     }
 
     return (
-        <div className={`${color ? "w_32 ml-1" : "w_56 ml-2"} h_24  relative flex items-center `}>
+        <div className={`${color ? "w_32 ml-1" : "w_56 ml-1"} h_24  relative flex items-center `}>
 
 
             <input onClick={handleSelect} onChange={handleInputChange} defaultValue={`${color ? value : `0${unit}`}`} 

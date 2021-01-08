@@ -20,7 +20,7 @@ import {TexturePorpertyContext} from "./context/texturePropertyContext"
 import AddMaterial from "./containers/AddMaterial"
 import DashedLine from "./components/DashedLine"
 import LabeledSwitch from "./containers/LabeledSwitch"
-import Toggle from "./containers/Expand"
+import Expand from "./containers/Expand"
 
 
 function App() {
@@ -123,28 +123,75 @@ function App() {
                   
                     <LabeledSwitch label="Double Sided Material"  padding={true}/>
 
-                    <Toggle label="Advanced Options">
+                    <Expand label="Advanced Options">
                         <div className={advancedOptionSections} >
 
-                        <LabeledInput hasButton={true} plus={true} labelType="title" label="Hello" input={defaultInputs.single()} />
-                        <LabeledInput empty  label="Rotation" type="buttonless" input={defaultInputs.single()}  />
+                        <LabeledInput label="Anisotropy" labelType="title"  hasButton={true} plus={true}   input={defaultInputs.single("%")} />
+                        <LabeledInput  label="Rotation" type="buttonless"  input={defaultInputs.single("°")}  />
 
                         </div>
 
                         <div className={advancedOptionSections}>
 
-                        <LabeledInput hasButton={true} plus={true} labelType="title" label="Hello" input={defaultInputs.single()} />
-                        <LabeledInput empty  label="Rotation" type="buttonless" input={defaultInputs.single()}  />
+                        <LabeledInput label="Clearcoat" labelType="title" hasButton={true} plus={true}   input={defaultInputs.single("%")} />
+                        <LabeledInput  label="Roughness" type="buttonless"  input={defaultInputs.single("%")}  />
 
                         </div>
 
                         <div className={advancedOptionSections}>
 
-                        <LabeledInput hasButton={true} plus={true} labelType="title" label="Hello" input={defaultInputs.single()} />
-                        <LabeledInput empty  label="Rotation" type="buttonless" input={defaultInputs.single()}  />
+                        <LabeledInput label="Subsurface" labelType="title" hasButton={true} plus={true}   input={defaultInputs.single("%")} />
+                        <LabeledInput  label="Radius / Thickness" type="buttonless"  input={defaultInputs.single("mm")}  />
 
                         </div>  
-                    </Toggle>
+
+                        <div className={advancedOptionSections}>
+
+                        <LabeledInput label="Refraction" labelType="title" hasButton={true} plus={true}   input={defaultInputs.single("%")} />
+                        <LabeledInput  label="Absorbtion" hasButton={true} plus={true}  input={defaultInputs.double("mm")}  />
+
+                        </div> 
+
+                        <div className={advancedOptionSections}>
+
+                        <LabeledInput label="Reflectivity" labelType="title" hasButton={true} plus={true}   input={defaultInputs.single("%")} />
+
+                        </div> 
+
+                        <div className={advancedOptionSections}>
+
+                        <LabeledInput label="Ambient Occlusion" labelType="title" hasButton={true} plus={true}   input={defaultInputs.single("%")} />
+
+                        </div> 
+
+                        <div className={advancedOptionSections}>
+
+                        <LabeledInput label="Lightmap" labelType="title" hasButton={true} plus={true}   input={defaultInputs.single("%")} />
+
+                        </div> 
+                    </Expand>
+
+                    <Expand label="Texture Transformations" padding={true}>
+                        <div className={advancedOptionSections}>
+
+                        <LabeledInput label="Tiling" hasButton={true} plus={true}   input={defaultInputs.double(null, true)} />
+
+                        </div> 
+
+                        <div className={advancedOptionSections}>
+
+                        <LabeledInput label="Offset"type="buttonless"   input={defaultInputs.double(null, true)} />
+
+                        </div> 
+
+                        <div className={advancedOptionSections}>
+
+                        <LabeledInput label="Rotation" type="buttonless"   input={defaultInputs.single("°")} />
+
+                        </div> 
+                      
+
+                    </Expand>
 
                    
                    

@@ -22,7 +22,7 @@ function Expand(props) {
                     transform: !open && "rotate(-90deg)"
                     
                     }} />
-                <p className="font-semibold">{label}</p>
+                <p className="font-semibold text-sm">{label}</p>
             </div>
             {open && props.children}
 
