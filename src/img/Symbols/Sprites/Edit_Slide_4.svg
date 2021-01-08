@@ -1,8 +1,0 @@
-<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M16.5 13.5586V3.44139L1.5 1.56639V15.4336L16.5 13.5586Z" stroke="#F7F7F7"/>
-<path d="M14.5 8.5L11.5 11.5" stroke="#F7F7F7" stroke-linecap="round"/>
-<path d="M13.5 8.5H9.5" stroke="#F7F7F7" stroke-linecap="square"/>
-<path d="M11.5 5.5L14.5 8.5" stroke="#F7F7F7" stroke-linecap="round"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M10 3V14H9V3H10Z" fill="#F7F7F7"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M9 3.0026L2 2.12256V14.8744L9 13.9901V3.0026Z" fill="#FFAE93"/>
-</svg>
