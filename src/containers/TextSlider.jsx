@@ -25,10 +25,12 @@ function TextSlider(props){
         minimum,
         unit,
         labelType,
-        hasButton,
+        hasButton = true,
+        emptyButtonSpace,
         path
     
     } = props
+   
     const propName = props.propName || "Parameter"
     const colorSlider = props.colorSlider || false
 
@@ -124,7 +126,7 @@ function TextSlider(props){
         <div ref={sliderRef} className={`${hasButton === true ? " h_32 my-2 px-2" : "h_24 my-4 "} `}>
         <div className={`w-full h-full  flex  justify-between `}>
          
-            <div className={`${hasButton != false ? "w_184" : "w-full"}`}>
+            <div className={`${hasButton != false ? "w_184" : "w-full"} ${emptyButtonSpace && "pr-4"}`}>
 
                 <SliderParamProp 
                 
@@ -170,7 +172,7 @@ function TextSlider(props){
                
 
             </div>
-               {hasButton != false &&  <TextureButton openPopup={openPopup} setOpenPopup={setOpenPopup} /> }
+               {hasButton && !emptyButtonSpace && <TextureButton openPopup={openPopup} setOpenPopup={setOpenPopup} /> }
         </div>
         </div>
     )

@@ -9,7 +9,7 @@ function Tab(props){
     }
 
     return(
-        <div className={`w-full grid grid-cols-${tabOptions.length} `}>
+        <div className={`w-full grid grid-cols-${tabOptions.length} grid-rows-1 `}>
             {tabOptions.map((option, index) => {
 
                 return <div key={index} 

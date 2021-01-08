@@ -17,7 +17,9 @@ function Dropdown(props){
     const handleSelection = (e) => {
         const selectionTarget = parseInt(e.target.id.split("-")[1])
         
-        setDropdownSelection(selectionTarget)
+        if(dropdownOpen){
+            setDropdownSelection(selectionTarget)
+        }
        
     }
 
@@ -37,22 +39,27 @@ function Dropdown(props){
             : type == "solid" ? "bg-lightGrey border border-lightGrey" : "border border-almostBlack"} w_wide-10 ` }
 
              style={{
-
+                transform: `translate(0px, -${dropdownSelection * 24}px)`,
                 outline: "thin solid #252525"
             }}>
 
                 {optionTitle &&  <li className="pl-1 text-sm  flex justify-between">{optionTitle}
                 <img src={type == "solid" ? DownArrowBlack : DownArrowWhite} className="w_24 h_24  flex justify-center items-center select-none"></img></li>
                 }
-               
 
+                 {(type === "solid") && 
+                 <img className="absolute right-0 m-0.5" 
+                 style={{ transform: `translate(0px, ${dropdownSelection * 24}px)`}} 
+                 src={dropdownOpen ? DownArrowWhite : DownArrowBlack} /> } 
+               
+                
                 {list && list.map((item,index) => {
                     return <li key={index} 
                     onClick={handleSelection}
                     id={`dropdown_item_${optionTitle}-${index}`}
                     className={`${index === dropdownSelection && dropdownOpen ? "bg-darkGrey" : ""} 
                     pl-1 text-sm h_24 flex w-full justify-between
-                    ${index > 0 && "hover:bg-darkGrey"}`}>{item.name} {(index == 0 && type === "solid") && <img src={dropdownOpen ? DownArrowWhite : DownArrowBlack} /> } </li>
+                    ${(index !== dropdownSelection && dropdownOpen) && "hover:bg-darkGrey"}`}>{item.name}</li>
                 })}
               
                 

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useContext, useLayoutEffect } from 
 
 import {TexturePorpertyContext} from "../context/texturePropertyContext"
 
-import {setDefaultTexture} from "../TestData/functions"
+import DownArrow from "../img/Symbols/Sprites/ArrowDown.svg"
 
 import {generateInputs, payloadGenerator} from "../TestData/generators"
 
@@ -18,6 +18,7 @@ function LabeledInput(props) {
         input,
         type,
         handleChange,
+        plus,
         hasButton
     } = props
     const mainProperty = props.mainProperty !== undefined ? props.mainProperty : true
@@ -43,15 +44,25 @@ function LabeledInput(props) {
     }, [])
 
     return(
-        <div className={`w-full h_24 flex ${mainProperty ? "px-4" : type=== "colorPicker" ? "mt-5" : "my-4"}`}>
+        <div className={`w-full h_24 flex ${ type=== "colorPicker" ? "mt-5" : "my-2"} ${mainProperty ? "my-2" : "my-4"}`}>
             <div className={` w-full flex items-center justify-between`}>
                
-                <p className={`${labelType === "title" ? "font-semibold" : "font-normal"} 
-                ${type === "colorPicker" && " bg-lightGrey h-full w_48 flex justify-center items-center"} 
-                text-xs`}>{ localLabel}</p>
+               {type !== "colorPicker" ?
+               
+               
+               <p className={`${labelType === "title" ? "font-semibold" : "font-normal"} text-xs`}>{localLabel}</p>
+               
+            :
+            <div   
+            className={` bg-lightGrey h-full w_48 flex justify-center items-center text-xs`}>
+            { localLabel} 
+            <img className="" src={DownArrow} />
+            </div>
+         
+            }
                     
 
-        <div className="flex">
+        <div className={`flex ${type === "buttonless" && "pr-8"}`}>
                 <div className="flex">
 
                     {inputs && inputs.map((inp) => {
@@ -60,10 +71,10 @@ function LabeledInput(props) {
 
                 </div>
                 {hasButton && <TextureButton 
-                type="transparent"
+                type={!plus && "transparent"}
                 openPopup={openPopup} 
                 className={`${!mainProperty ? "ml-1" : "ml-2" }`} 
-                img={colorPicker} 
+                img={!plus && colorPicker} 
                 alt="pick a color" 
                 setOpenPopup={setOpenPopup}/>}
         </div>

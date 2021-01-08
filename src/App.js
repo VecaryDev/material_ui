@@ -20,6 +20,7 @@ import {TexturePorpertyContext} from "./context/texturePropertyContext"
 import AddMaterial from "./containers/AddMaterial"
 import DashedLine from "./components/DashedLine"
 import LabeledSwitch from "./containers/LabeledSwitch"
+import Toggle from "./containers/Expand"
 
 
 function App() {
@@ -27,6 +28,8 @@ function App() {
   const {globalState, dispatch} = useContext(TexturePorpertyContext)
   const [firstChildInitialPos, setFirstChildInitialPos] = useState(0)
   const rightPanel = useRef(null)
+
+  const advancedOptionSections= "overflow-auto"
 
   useEffect(() => {
     dispatch({type: "ADD_WORKSPACE_REF", payload: {
@@ -57,17 +60,17 @@ function App() {
   return (
     <div  className="App font-inter overflow-hidden transition-none ">
 
-      <div id="MenuBar" className="w-full h_56 bg-primary z-10 relative" style={{ background: `url(${Navbar}) no-repeat center top/contain`}}></div>
+      <div id="MenuBar" className="w-full h_56 bg-primary z-10 relative" style={{ background: `url(${Navbar}) no-repeat center top/100% auto`}}></div>
       <div id="Workspace" className="flex">
 
         <div id="leftSidebarAnd3DSpace" className="w-full h-screen">
-          <div id="toolbar" className="w-full h_40 bg-primaryLight" style={{ background: `url(${Toolbar}) no-repeat center top/cover`}}></div>
+          <div id="toolbar" className="w-full h_40 bg-primaryLight" style={{ background: `url(${Toolbar}) no-repeat center top/100% auto`}}></div>
           <div className="w-full h-full flex">
-              <div id="leftSideBar" className="w_prop h-full bg-almostWhite" style={{ background: `url(${leftSideBar}) no-repeat center top/contain`}}></div>
+              <div id="leftSideBar" className="w_prop h-full bg-almostWhite" style={{ background: `url(${leftSideBar}) no-repeat center top/100% auto`}}></div>
               <div id="3DSpace" ref={WorkSpaceRef} className=" h-full bg-almostBlack p-3" style={{
                 width: "calc(100% - 248px)", 
                 height: "calc(100% )",
-                background: `url(${Background}) no-repeat center bottom/cover`
+                background: `url(${Background}) no-repeat center top/100% auto`
                 }}>
 
 
@@ -120,7 +123,28 @@ function App() {
                   
                     <LabeledSwitch label="Double Sided Material"  padding={true}/>
 
-                    
+                    <Toggle label="Advanced Options">
+                        <div className={advancedOptionSections} >
+
+                        <LabeledInput hasButton={true} plus={true} labelType="title" label="Hello" input={defaultInputs.single()} />
+                        <LabeledInput empty  label="Rotation" type="buttonless" input={defaultInputs.single()}  />
+
+                        </div>
+
+                        <div className={advancedOptionSections}>
+
+                        <LabeledInput hasButton={true} plus={true} labelType="title" label="Hello" input={defaultInputs.single()} />
+                        <LabeledInput empty  label="Rotation" type="buttonless" input={defaultInputs.single()}  />
+
+                        </div>
+
+                        <div className={advancedOptionSections}>
+
+                        <LabeledInput hasButton={true} plus={true} labelType="title" label="Hello" input={defaultInputs.single()} />
+                        <LabeledInput empty  label="Rotation" type="buttonless" input={defaultInputs.single()}  />
+
+                        </div>  
+                    </Toggle>
 
                    
                    
