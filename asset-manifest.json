@@ -1,22 +1,24 @@
 {
   "files": {
-    "main.css": "/material_ui/static/css/main.adcfbf76.chunk.css",
-    "main.js": "/material_ui/static/js/main.9c84067b.chunk.js",
-    "main.js.map": "/material_ui/static/js/main.9c84067b.chunk.js.map",
+    "main.css": "/material_ui/static/css/main.1c8f2501.chunk.css",
+    "main.js": "/material_ui/static/js/main.33a4e2df.chunk.js",
+    "main.js.map": "/material_ui/static/js/main.33a4e2df.chunk.js.map",
     "runtime-main.js": "/material_ui/static/js/runtime-main.c928a86a.js",
     "runtime-main.js.map": "/material_ui/static/js/runtime-main.c928a86a.js.map",
-    "static/js/2.7ff09415.chunk.js": "/material_ui/static/js/2.7ff09415.chunk.js",
-    "static/js/2.7ff09415.chunk.js.map": "/material_ui/static/js/2.7ff09415.chunk.js.map",
+    "static/js/2.b074bb2b.chunk.js": "/material_ui/static/js/2.b074bb2b.chunk.js",
+    "static/js/2.b074bb2b.chunk.js.map": "/material_ui/static/js/2.b074bb2b.chunk.js.map",
     "static/js/3.f79cd5a8.chunk.js": "/material_ui/static/js/3.f79cd5a8.chunk.js",
     "static/js/3.f79cd5a8.chunk.js.map": "/material_ui/static/js/3.f79cd5a8.chunk.js.map",
     "index.html": "/material_ui/index.html",
-    "static/css/main.adcfbf76.chunk.css.map": "/material_ui/static/css/main.adcfbf76.chunk.css.map",
-    "static/js/2.7ff09415.chunk.js.LICENSE.txt": "/material_ui/static/js/2.7ff09415.chunk.js.LICENSE.txt",
+    "static/css/main.1c8f2501.chunk.css.map": "/material_ui/static/css/main.1c8f2501.chunk.css.map",
+    "static/js/2.b074bb2b.chunk.js.LICENSE.txt": "/material_ui/static/js/2.b074bb2b.chunk.js.LICENSE.txt",
     "static/media/ArrowDown.f151313b.svg": "/material_ui/static/media/ArrowDown.f151313b.svg",
     "static/media/Background.b2b3548e.png": "/material_ui/static/media/Background.b2b3548e.png",
     "static/media/Download.07b3e5d6.svg": "/material_ui/static/media/Download.07b3e5d6.svg",
     "static/media/ExpandOpened.d3dcd212.svg": "/material_ui/static/media/ExpandOpened.d3dcd212.svg",
+    "static/media/Link.d1b46bc8.svg": "/material_ui/static/media/Link.d1b46bc8.svg",
     "static/media/PipetteColor.73af3dd3.svg": "/material_ui/static/media/PipetteColor.73af3dd3.svg",
+    "static/media/Plus.793caf27.svg": "/material_ui/static/media/Plus.793caf27.svg",
     "static/media/Reset.de0dc734.svg": "/material_ui/static/media/Reset.de0dc734.svg",
     "static/media/Signs_ArrowDown_1.39a9aadd.svg": "/material_ui/static/media/Signs_ArrowDown_1.39a9aadd.svg",
     "static/media/Signs_ArrowDown_3.3ac601ae.svg": "/material_ui/static/media/Signs_ArrowDown_3.3ac601ae.svg",
@@ -25,8 +27,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.c928a86a.js",
-    "static/js/2.7ff09415.chunk.js",
-    "static/css/main.adcfbf76.chunk.css",
-    "static/js/main.9c84067b.chunk.js"
+    "static/js/2.b074bb2b.chunk.js",
+    "static/css/main.1c8f2501.chunk.css",
+    "static/js/main.33a4e2df.chunk.js"
   ]
 }
