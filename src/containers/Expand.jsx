@@ -15,14 +15,14 @@ function Expand(props) {
 
     return (
         <div className="w_prop ">
-            <div className="px-4">
-            <div onClick={clickHandler} className="text-sm w-full  h_40 flex items-end cursor-pointer mb-2">
+            <div className="mx-2 overflow-visible text-almostBlack font-title">
+            <div onClick={clickHandler} className=" w-full  h_40 flex items-end cursor-pointer mb-2">
                 <img src={ExpandHandle} alt="expand" style={{
                     marginLeft: "-6px",
                     transform: !open && "rotate(-90deg)"
                     
                     }} />
-                <p className="font-semibold text-sm">{label}</p>
+                <p className="font-semibold ">{label}</p>
             </div>
             {open && props.children}
 

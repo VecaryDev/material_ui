@@ -123,7 +123,7 @@ function TextSlider(props){
     }, [progress, max])
 
     return (
-        <div ref={sliderRef} className={`${hasButton === true ? " h_32 my-2 px-2" : "h_24 my-4 "} `}>
+        <div ref={sliderRef} className={`${hasButton === true ? " h_32 my-2 px-2" : "h_24 my-4 "} text-almostBlack `}>
         <div className={`w-full h-full  flex  justify-between `}>
          
             <div className={`${hasButton != false ? "w_184" : "w-full"} ${emptyButtonSpace && "pr-4"}`}>

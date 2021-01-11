@@ -64,8 +64,8 @@ function SliderParamProp(props) {
     
 
     return(
-        <div className="flex flex-row h_16 text-xs justify-between">
-            <p  className={`${labelType === "title" ? "font-semibold" : "font-normal"}`}>{propName}</p>
+        <div className="flex flex-row h_16 normal-font justify-between antialiased">
+            <p  className={`${labelType === "title" ? "font-semibold" : "font-normal"} text-almostBlack antialiased `}>{propName}</p>
             <div className="flex " >
                 
                 <input id={`${inputid}`}

@@ -115,11 +115,7 @@ function TexturePopup(props) {
 
   
     return(
-        <Draggable
-        bounds="parent"
-        handle="handle"
-        positionOffset={{x:248, y:98}}
-        defaultPosition={{x: window.innerWidth-(4 * 248 + 40), y: 98}}
+        <div className="flex justify-end pt-60"
    >
        {globalState.MaterialPorperties[activeType] ? 
          <div ref={popUpWindow} 
@@ -158,7 +154,7 @@ function TexturePopup(props) {
              </div>
          </div>
          : <div></div> }
-   </Draggable>
+   </div>
     )
 }
 

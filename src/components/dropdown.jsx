@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import DownArrowBlack from "../img/Symbols/Sprites/Signs_ArrowDown_1.svg"
 import DownArrowWhite from "../img/Symbols/Sprites/Signs_ArrowDown_3.svg"
 
@@ -9,29 +9,50 @@ function Dropdown(props){
         list,
         optionTitle,
         dropdownSelection,
-        setDropdownSelection
+        setDropdownSelection,
+        className,
+        defaultState,
+        setToggleDropdown,
+        style
     } = props
 
+    
     const [dropdownOpen, setDropdownOpen] = useState(false)
 
     const handleSelection = (e) => {
         const selectionTarget = parseInt(e.target.id.split("-")[1])
-        
-        if(dropdownOpen){
-            setDropdownSelection(selectionTarget)
+        if(setToggleDropdown === undefined){
+            if(dropdownOpen){
+                setDropdownSelection(selectionTarget)
+            }
+        }else{
+            setToggleDropdown(false)
         }
+       
        
     }
 
+    useEffect(() => {
+       if(defaultState !== undefined){
+        setDropdownOpen(defaultState)
+       }
+    }, [defaultState])
+
     function handleDropdown(){
-        setDropdownOpen(!dropdownOpen)
+        if(setToggleDropdown === undefined){
+
+            setDropdownOpen(!dropdownOpen)
+        }else{
+            setToggleDropdown(!dropdownOpen)
+        }
     }
 
     return (
         <div id="texture_dropdown" 
         onClick={handleDropdown}
-        className={` cursor-pointer w-full mb-4 h_24  rounded z-10 relative
+        className={`${className ? className : "relative w-full"} cursor-pointer  mb-4 h_24  rounded z-10 
          ${dropdownOpen ? " " : "overflow-hidden" } ${type == "solid" ? "text-almostBlack " : "border border-almostWhite"}`} 
+         style={style}
        >
 
             <ul id="texture_dropdown-list " 
@@ -58,7 +79,7 @@ function Dropdown(props){
                     onClick={handleSelection}
                     id={`dropdown_item_${optionTitle}-${index}`}
                     className={`${index === dropdownSelection && dropdownOpen ? "bg-darkGrey" : ""} 
-                    pl-1 text-sm h_24 flex w-full justify-between
+                    pl-1 text-sm h_24 flex w-full justify-between normal-font font-semibold
                     ${(index !== dropdownSelection && dropdownOpen) && "hover:bg-darkGrey"}`}>{item.name}</li>
                 })}
               

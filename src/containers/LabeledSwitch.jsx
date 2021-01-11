@@ -21,7 +21,7 @@ function LabeledSwitch(props){
     }, [input])
 
     return(
-        <div className={` ${padding && "px-4 my-2"} flex w-full h_24 text-xs font-semibold justify-between items-center`}>
+        <div className={` ${padding && "px-4 my-2"} flex w-full h_24 normal-font font-semibold justify-between items-center text-almostBlack`}>
 
             <p className={`${labelType === "title" ? "font-semibold" : "font-normal"}`}>{label}</p>
             <div className="flex h_24">

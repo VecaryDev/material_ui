@@ -9,13 +9,13 @@ function Tab(props){
     }
 
     return(
-        <div className={`w-full grid grid-cols-${tabOptions.length} grid-rows-1 `}>
+        <div className={`w-full flex grid-cols-${tabOptions.length} grid-rows-1 `}>
             {tabOptions.map((option, index) => {
 
                 return <div key={index} 
                 onClick={handleClick}
                 id={`tab_index-${index}`}
-                className={`text-xs w-full text-center h_24 border-b cursor-pointer
+                className={`normal-font w-full text-center h_24 border-b cursor-pointer
                 ${active === index ? "border-primary text-primary font-semibold" : "text-softGrey border-softGrey"} `} 
                 >{option.name}</div>
 

@@ -29,7 +29,7 @@ function App() {
   const [firstChildInitialPos, setFirstChildInitialPos] = useState(0)
   const rightPanel = useRef(null)
 
-  const advancedOptionSections= "overflow-auto"
+  const advancedOptionSections= "overflow-auto px-2"
 
   useEffect(() => {
     dispatch({type: "ADD_WORKSPACE_REF", payload: {
@@ -145,10 +145,10 @@ function App() {
 
                         </div>  
 
-                        <div className={advancedOptionSections}>
+                        <div className={advancedOptionSections} style={{overflowY: "hidden", overflowX: "hidden"}}>
 
-                        <LabeledInput label="Refraction" labelType="title" hasButton={true} plus={true}   input={defaultInputs.single("%")} />
-                        <LabeledInput  label="Absorbtion" hasButton={true} plus={true}  input={defaultInputs.double("mm")}  />
+                        <LabeledInput label="Refraction" labelType="title" hasButton={true} icon="dropdown"   input={defaultInputs.single("%")} />
+                        <LabeledInput  label="Absorbtion" hasButton={true} plus={true} icon="solid" input={defaultInputs.double("mm")}  />
 
                         </div> 
 
@@ -174,7 +174,7 @@ function App() {
                     <Expand label="Texture Transformations" padding={true}>
                         <div className={advancedOptionSections}>
 
-                        <LabeledInput label="Tiling" hasButton={true} plus={true}   input={defaultInputs.double(null, true)} />
+                        <LabeledInput label="Tiling" hasButton={true} icon="link"  input={defaultInputs.double(null, true)} />
 
                         </div> 
 

@@ -79,13 +79,13 @@
     border-radius: 50%;
   }
   .knot:hover{
-    width: 17px;
-    height: 17px;
+    width: 15px;
+    height: 15px;
     margin-left: -2px;
   }
   .knotBig{
-    width: 17px!important;
-    height: 17px!important;
+    width: 15px!important;
+    height: 15px!important;
     margin-left: -2px!important;
     border-radius: 50%;
   }
@@ -97,8 +97,8 @@
   }
 
   .knotMid {
-    width: 5px;
-    height: 5px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
   }
   .knot:hover > .knotMid {
@@ -154,5 +154,30 @@
   .hideScrollBar::-webkit-scrollbar {
     display: none;
   }
+
+  .normal-font{
+    font-size: 11px;
+   
+
+  }
+  .font-title {
+    font-size: 12px;
+  }
+
+  input:focus, textarea:focus, select:focus{
+    outline: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+*{
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+ 
+}
   
 }
