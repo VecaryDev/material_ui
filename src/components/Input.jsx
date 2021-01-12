@@ -35,12 +35,13 @@ function Input(props) {
            const difference = inputRef.current.getBoundingClientRect().top + 12 + window.scrollY - e.clientY
            let changingFactor = parseInt(map_float_range(difference, -1000, 1000, -5, 5))
            const adjustChange = () => {
+               console.log(Math.pow(2, Math.log10(difference)), Math.log10(difference - 1), difference)
                if(difference > 0) {
                    
-                    return Math.ceil(dynamicValue +  Math.pow(1.1, Math.log10(difference) ))
+                    return Math.ceil(dynamicValue +  Math.pow(2, Math.log10(difference )- 1 ))
                }
                else if(difference < 0 ){
-                return  Math.floor(dynamicValue -  Math.pow(1.1, Math.log10(difference * -1) ))
+                return  Math.floor(dynamicValue -  Math.pow(2, Math.log10(difference  * -1) - 1))
                }
                else{
                    return dynamicValue;
