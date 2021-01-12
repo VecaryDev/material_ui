@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 
-import {map_range} from "../TestData/functions"
+import {map_float_range} from "../TestData/functions"
 
 
 function Input(props) {
@@ -22,7 +22,7 @@ function Input(props) {
     const handleInputChange = (e) => {
         let newInput = e.target.value.split(`${unit}`).join("")
        
-        setDynamicValue(newInput + unit)
+        setDynamicValue(newInput )
        
     }
     const handleSelect = (e) => {
@@ -32,10 +32,27 @@ function Input(props) {
     }
     const handleDrag = (e) => {
        if(inputRef !== null) {
-           const difference = inputRef.current.getBoundingClientRect().top + window.scrollY - e.clientY
-           let changingFactor = map_range(difference, -100, 100, -2, 2)
-           console.log(changingFactor)
-           setDynamicValue(dynamicValue + changingFactor)
+           const difference = inputRef.current.getBoundingClientRect().top + 12 + window.scrollY - e.clientY
+           let changingFactor = parseInt(map_float_range(difference, -1000, 1000, -5, 5))
+           const adjustChange = () => {
+               if(difference > 0) {
+                   
+                    return Math.ceil(dynamicValue +  Math.pow(1.1, Math.log10(difference) ))
+               }
+               else if(difference < 0 ){
+                return  Math.floor(dynamicValue -  Math.pow(1.1, Math.log10(difference * -1) ))
+               }
+               else{
+                   return dynamicValue;
+                    
+               }
+           }
+           setTimeout(() => {
+            console.log(adjustChange());
+            setDynamicValue(adjustChange() )
+           }, 50)
+          
+          
 
        }
        
@@ -45,7 +62,7 @@ function Input(props) {
     }
     
     useEffect(() => {
-       console.log(dynamicValue)
+      // console.log(dynamicValue)
     }, [dynamicValue])
 
     return (
