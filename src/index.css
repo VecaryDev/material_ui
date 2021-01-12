@@ -173,7 +173,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 *{
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: 0em;
   -moz-osx-font-smoothing: grayscale;
   font-smoothing: antialiased;
   text-rendering: optimizeLegibility;

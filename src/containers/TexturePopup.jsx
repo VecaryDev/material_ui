@@ -115,12 +115,12 @@ function TexturePopup(props) {
 
   
     return(
-        <div className="flex justify-end pt-60"
+        <div className="flex justify-end pt-60 "
    >
        {globalState.MaterialPorperties[activeType] ? 
          <div ref={popUpWindow} 
          className={`${open ? "" : "hidden"} 
-         w_props-row  bg-white absolute rounded-sm overflow-hidden`} 
+         w_props-row  bg-white absolute rounded-sm overflow-hidden `} 
          style={{minHeight: "350px"}}>
 
                <PopUpView  
@@ -136,7 +136,7 @@ function TexturePopup(props) {
                />  
            
                
-             <div id="popUp_Properties transition-all duration-100 " className="p-4">
+             <div id="popUp_Properties transition-all duration-100 " className="p-4 ">
                 
                  
                 <Dropdown list={globalState.MaterialPorperties[activeProperty].textureTypes} type="solid" dropdownSelection={activeTexture} setDropdownSelection={setActiveTexture} />

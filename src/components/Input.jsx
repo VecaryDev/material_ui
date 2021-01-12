@@ -34,6 +34,7 @@ function Input(props) {
        if(inputRef !== null) {
            const difference = inputRef.current.getBoundingClientRect().top + window.scrollY - e.clientY
            let changingFactor = map_range(difference, -100, 100, -2, 2)
+           console.log(changingFactor)
            setDynamicValue(dynamicValue + changingFactor)
 
        }
