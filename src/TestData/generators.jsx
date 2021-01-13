@@ -1,6 +1,7 @@
 import React from "react"
 import TextSlider  from "../containers/TextSlider"
 import Input from "../components/Input"
+import RangeInput from "../components/RangeInput"
 import LabeledSwitch from "../containers/LabeledSwitch"
 import LabeledInput from "../containers/LabeledInput"
 
@@ -161,6 +162,11 @@ export const generateInputs = (inputs, type = null) => {
             console.log("COLORPICKER")
            
             inputArray.push(<Input key={newId} id={newId} unit={null} value={inputIterable[0].default[index]} color={true}/>)
+
+            break;
+            case "rangeInput":
+
+            inputArray.push(<RangeInput key={newId} iterable={newiterable} unit={newUnit} />)
 
             break;
 

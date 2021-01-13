@@ -7,7 +7,8 @@ import {map_float_range} from "../TestData/functions"
 import ArrowGrowUp from "../img/Symbols/Sprites/ArrowGrowUp.svg"
 import ArrowGrowDown from "../img/Symbols/Sprites/ArrowGrowDown.svg"
 import ArrowGrow from "../img/Symbols/Sprites/ArrowUpDown.svg"
-import { parse } from "postcss"
+
+
 
 
 function Input(props) {
@@ -23,7 +24,6 @@ function Input(props) {
     const [update, setUpdate] = useState(0)
     const [hover, setHover] = useState(false)
     const [growIcon, setGrowIcon] = useState(ArrowGrow)
-    const [editableText, setEditableText] = useState(false)
     const [indicator, setIndicator] = useState(false)
     
     const inputRef = useRef(null)
@@ -166,12 +166,7 @@ function Input(props) {
         dragOver = true
         const selection = inputRef.current.value.substring(inputRef.current.selectionStart, inputRef.current.selectionEnd);
         
-        if(selection === "") {
-            inputRef.current.select()
-            setEditableText(true)
-        }else{
-            setEditableText(false)
-        }
+      
         console.log(selection)
       
        // counter = 0
@@ -213,13 +208,13 @@ function Input(props) {
                        }
                       
                     infinity()
-                }, 100)
+                }, 50)
             }
         }
         setTimeout(() => {
             infinity()
-            setEditableText(false)
-        }, 500)
+           
+        }, 100)
     }
         
         addSelfDestructingEventListener(window, "mouseup", tryit) 

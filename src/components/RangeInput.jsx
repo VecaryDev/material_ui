@@ -4,6 +4,11 @@ import React, { useEffect, useRef, useState } from "react"
 
 import {map_float_range} from "../TestData/functions"
 
+import ArrowGrowUp from "../img/Symbols/Sprites/ArrowGrowUp.svg"
+import ArrowGrowDown from "../img/Symbols/Sprites/ArrowGrowDown.svg"
+import ArrowGrow from "../img/Symbols/Sprites/ArrowUpDown.svg"
+
+
 
 function RangeInput(props) {
     const {
@@ -15,6 +20,12 @@ function RangeInput(props) {
     
     const [dynamicValue, setDynamicValue] = useState(false)
     const [multiplyer, setMultiplyer] = useState(0)
+    const [hover, setHover] = useState(false)
+    const [growIcon, setGrowIcon] = useState(ArrowGrow)
+    const [indicator, setIndicator] = useState(false)
+
+    let oldValue = 0
+
 
     const inputRef = useRef(null)
 
@@ -29,8 +40,13 @@ let num = 0
 
 
     useEffect(() => {
-        setDynamicValue(0)
+        if(unit !== undefined){
+            setDynamicValue(0 + unit )
+        }else {
+            setDynamicValue(0 )
+        }
     }, [value])
+
 
     const handleInputChange = (e) => {
         let newInput = e.target.value.split(`${unit}`).join("")
@@ -45,11 +61,11 @@ let num = 0
     }
 
  
-    const handleDrag = (location) => {
+    const handleDrag = (location, oldLocation) => {
        if(inputRef !== null) {
            const difference = inputRef.current.getBoundingClientRect().top + 12 + window.scrollY - location
            let changingFactor = parseInt(map_float_range(difference, -100, 100, 0, 100))
-           //console.log(dynamicValue)
+           console.log(location, oldLocation)
           
            const adjustChange = () => {
               // console.log(dynamicValue +  Math.pow(2, Math.log10(difference )- 1))
@@ -76,9 +92,12 @@ let num = 0
            }
            setTimeout(() => {
               
-            console.log(dynamicValue, adjustChange(),  parseInt(dynamicValue + adjustChange() ), counter, num);
-            num += parseInt( adjustChange() )
-            setDynamicValue(adjustChange())
+            //console.log(dynamicValue, adjustChange(),  parseInt(dynamicValue + adjustChange() ), counter, num);
+            //num += parseInt( adjustChange() )
+            console.log(location - oldLocation)
+            num += location - oldLocation
+           
+            setDynamicValue(adjustChange() + unit)
            }, 50)
           
           
@@ -108,10 +127,19 @@ let num = 0
 
     function logUserLocation(e) {
         console.log(e.clientY)
+       
        if(e.clientY !== undefined){
+             oldValue =  userLocation
              userLocation = e.clientY
        }
        
+    }
+    function pauseEvent(e){
+        if(e.stopPropagation) e.stopPropagation();
+        if(e.preventDefault) e.preventDefault();
+        e.cancelBubble=true;
+        e.returnValue=false;
+        return false;
     }
 
     function exprimental(e) {
@@ -121,14 +149,14 @@ let num = 0
                 setTimeout(() => {
                     addSelfDestructingEventListener(window, "mousemove", logUserLocation) 
                    // setDynamicValue(num += multiplyer)
-                    handleDrag(userLocation)
+                    handleDrag(userLocation, oldValue)
                     
                     console.log("down")
                     infinity()
                 }, 10)
             }
         }
-        setTimeout(infinity, 500)
+        setTimeout(infinity, 100)
         
         addSelfDestructingEventListener(window, "mouseup", tryit) 
     }
@@ -142,7 +170,11 @@ let num = 0
     }, [dynamicValue])
 
     return (
-        <div className={`${color ? "w_32 ml-1" : "w_56 ml-1"} h_24  relative flex items-center `}>
+        <div 
+        onMouseOver={() => { setHover(true); setGrowIcon(ArrowGrow) } }
+        onMouseLeave={() => { setHover(false) } } 
+        
+        className={`${color ? "w_32 ml-1" : "w_56 ml-1"} h_24  relative flex items-center `}>
 
 
             <input onClick={handleSelect}
@@ -150,12 +182,29 @@ let num = 0
              onMouseDown={exprimental}
              onMouseUp={experimentalEnd}
             onDrop={handleDragEnd}
+            onFocus={() => {setIndicator(true)}}
+            onBlur={() => {setIndicator(false)}}
             ref={inputRef}
             value={dynamicValue} 
             onChange={handleInputChange}
             defaultValue={`${color ? value : `0${unit}`}`} 
             className={`bg-lightGrey w-full h-full rounded ${iterable ? "pl-4" : "pl-1"}  normal-font` } />
 
+{ hover && 
+            <div className="absolute right-0 h_24 flex items-center pointer-events-none "> 
+
+                <img onDrag={pauseEvent} className="" src={growIcon} />
+
+            </div>
+
+            }
+
+            {(!hover && indicator) &&
+              <div className="absolute right-0 h_24 flex items-center pointer-events-none "> 
+
+              <img onDrag={pauseEvent} className="" src={growIcon} />
+
+          </div>}
             
             {iterable &&  <p className="normal-font absolute pl-1 text-midGrey">{iterable}</p>   }
         </div>
