@@ -3,7 +3,7 @@ import React from "react"
 function DashedLine() {
 
     return (
-        <div className="w_props-row border border-dashed border-softGrey mb-2"></div>
+        <div className="w_props-row border-b border-dashed border-softGrey mb-2"></div>
     )
 }
 

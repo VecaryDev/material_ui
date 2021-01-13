@@ -78,9 +78,9 @@ function Dropdown(props){
                     return <li key={index} 
                     onClick={handleSelection}
                     id={`dropdown_item_${optionTitle}-${index}`}
-                    className={`${index === dropdownSelection && dropdownOpen ? "bg-darkGrey" : ""} 
+                    className={`${index === dropdownSelection && dropdownOpen ? "text-primary" : ""} 
                     pl-1 text-sm h_24 flex w-full justify-between normal-font font-semibold
-                    ${(index !== dropdownSelection && dropdownOpen) && "hover:bg-darkGrey"}`}>{item.name}</li>
+                    ${(index !== dropdownSelection && dropdownOpen) && "hover:bg-primary"}`}>{item.name}</li>
                 })}
               
                 

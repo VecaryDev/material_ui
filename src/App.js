@@ -142,7 +142,7 @@ function App() {
                       </div>
                       <div>
                         <p>Growing input</p>
-                        <GrowingInputByPercentage />
+                        <GrowingInputByPercentage unit={"%"} />
                       </div>
                     </div>
 

@@ -13,6 +13,7 @@ import Plus from "../img/Symbols/Sprites/Plus.svg"
 import ColorPlaceholder from "../img/colorPlaceholder.png"
 
 import Link from "../img/Symbols/Sprites/Link.svg"
+import Unlink from "../img/Symbols/Sprites/Unlink.svg"
 
 import TextureButton from "../components/TextureButton"
 
@@ -33,7 +34,8 @@ function LabeledInput(props) {
         icon,
         path,
         plus,
-        hasButton
+        hasButton,
+        buttonClick
     } = props
     const mainProperty = props.mainProperty !== undefined ? props.mainProperty : true
     const [inputs, setInputs] = useState([])
@@ -92,7 +94,7 @@ function LabeledInput(props) {
            //setProgress(editedPropertyProgress.progress)
        }
         
-        if(globalStateCopy.MaterialPorperties.length > 0 && id === undefined && openPopup && icon !== "dropdown"){
+        if(globalStateCopy.MaterialPorperties.length > 0 && id === undefined && openPopup && icon === undefined){
          
             dispatch({type: "ADD_ACTIVE_MATERIAL_POPUP", payload: {
                 id: globalStateCopy.MaterialPorperties.filter(x => x.name == label)[0].id
@@ -100,6 +102,12 @@ function LabeledInput(props) {
         }
         else if(openPopup && icon === "dropdown"){
             setToggleDropdown(!toggleDorpdown)
+        }else if( icon === "link"){
+            if(openPopup){
+                setButtonIcon(Unlink)
+            }else{
+                setButtonIcon(Link)
+            }
         }
             
         
@@ -135,7 +143,7 @@ function LabeledInput(props) {
 
                 </div>
                 {hasButton && <TextureButton 
-                type={!plus && "transparent"}
+                type={icon === undefined || icon !== "dropdown" && "transparent"}
                 openPopup={openPopup} 
                 className={`${!mainProperty ? "ml-1" : "ml-2" }`} 
                 img={buttonIcon} 

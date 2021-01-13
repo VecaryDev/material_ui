@@ -7,6 +7,7 @@ import {map_float_range} from "../TestData/functions"
 import ArrowGrowUp from "../img/Symbols/Sprites/ArrowGrowUp.svg"
 import ArrowGrowDown from "../img/Symbols/Sprites/ArrowGrowDown.svg"
 import ArrowGrow from "../img/Symbols/Sprites/ArrowUpDown.svg"
+import { parse } from "postcss"
 
 
 function GrowingInputByPercentage(props) {
@@ -38,8 +39,7 @@ function GrowingInputByPercentage(props) {
 
     let num = 0
 
-
-
+    
 
     useEffect(() => {
 
@@ -49,20 +49,25 @@ function GrowingInputByPercentage(props) {
             setGrowIcon(ArrowGrowDown)
         }
 
-        console.log(dynamicValue, multiplyer, 1 * multiplyer, Math.floor(dynamicValue * multiplyer))
+      
+
+
+       
         if(dynamicValue === false){
-            setDynamicValue(0 )
+            setDynamicValue(0 + unit )
         }else{
-            if(dynamicValue === 0) {
-                setDynamicValue(Math.ceil(2 * multiplyer))
+            const processedDynamicValue = parseInt(dynamicValue.split(`${unit}`).join(""))
+            
+            if(processedDynamicValue === 0) {
+                setDynamicValue(Math.ceil(2 * multiplyer) + unit)
             }else{
                if(multiplyer > 0.005){
-                    setDynamicValue(Math.ceil(dynamicValue + (dynamicValue * multiplyer)))
+                    setDynamicValue(Math.ceil(processedDynamicValue + (processedDynamicValue * multiplyer)) + unit)
                }else if (multiplyer < -0.005) {
-                setDynamicValue(Math.floor(dynamicValue + (dynamicValue * multiplyer)))
+                     setDynamicValue(Math.floor(processedDynamicValue + (processedDynamicValue * multiplyer)) + unit)
                 
                }else{
-                    setDynamicValue(dynamicValue)    
+                    setDynamicValue(processedDynamicValue + unit)    
                }
             }
             
