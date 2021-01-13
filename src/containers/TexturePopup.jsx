@@ -115,7 +115,7 @@ function TexturePopup(props) {
 
   
     return(
-        <div className="flex justify-end pt-60 "
+        <div className="flex justify-end pt-60 select-none "
    >
        {globalState.MaterialPorperties[activeType] ? 
          <div ref={popUpWindow} 

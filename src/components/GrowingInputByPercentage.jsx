@@ -22,7 +22,9 @@ function GrowingInputByPercentage(props) {
     const [update, setUpdate] = useState(0)
     const [hover, setHover] = useState(false)
     const [growIcon, setGrowIcon] = useState(ArrowGrow)
-
+    const [editableText, setEditableText] = useState(false)
+    const [indicator, setIndicator] = useState(false)
+    
     const inputRef = useRef(null)
 
 
@@ -47,14 +49,21 @@ function GrowingInputByPercentage(props) {
             setGrowIcon(ArrowGrowDown)
         }
 
-        console.log(dynamicValue, multiplyer, 1 * multiplyer, dynamicValue * multiplyer)
+        console.log(dynamicValue, multiplyer, 1 * multiplyer, Math.floor(dynamicValue * multiplyer))
         if(dynamicValue === false){
             setDynamicValue(0 )
         }else{
             if(dynamicValue === 0) {
                 setDynamicValue(Math.ceil(2 * multiplyer))
             }else{
-                setDynamicValue(Math.ceil(dynamicValue + (dynamicValue * multiplyer)))
+               if(multiplyer > 0.005){
+                    setDynamicValue(Math.ceil(dynamicValue + (dynamicValue * multiplyer)))
+               }else if (multiplyer < -0.005) {
+                setDynamicValue(Math.floor(dynamicValue + (dynamicValue * multiplyer)))
+                
+               }else{
+                    setDynamicValue(dynamicValue)    
+               }
             }
             
         }
@@ -69,7 +78,7 @@ function GrowingInputByPercentage(props) {
        
     }
     const handleSelect = (e) => {
-        e.target.select()
+      
 
 
     }
@@ -131,8 +140,12 @@ function GrowingInputByPercentage(props) {
        }
        
     }
-    const handleDragEnd = (e) => {
-       e.preventDefault();
+    function pauseEvent(e){
+        if(e.stopPropagation) e.stopPropagation();
+        if(e.preventDefault) e.preventDefault();
+        e.cancelBubble=true;
+        e.returnValue=false;
+        return false;
     }
     
     let addSelfDestructingEventListener = (element, eventType, callback) => {
@@ -146,7 +159,16 @@ function GrowingInputByPercentage(props) {
     function tryit() {
       //  console.log("UP")
         dragOver = true
+        const selection = inputRef.current.value.substring(inputRef.current.selectionStart, inputRef.current.selectionEnd);
         
+        if(selection === "") {
+            inputRef.current.select()
+            setEditableText(true)
+        }else{
+            setEditableText(false)
+        }
+        console.log(selection)
+      
        // counter = 0
        
     }
@@ -161,18 +183,24 @@ function GrowingInputByPercentage(props) {
     }
 
     function exprimental(e) {
+       
         
         dragOver = false
+
+        const selection = inputRef.current.value.substring(inputRef.current.selectionStart, inputRef.current.selectionEnd);
+        
+        if(selection === "") {
+      
         function infinity() {
            
-            if(!dragOver){
+            if(!dragOver ){
                 setTimeout(() => {
                     addSelfDestructingEventListener(window, "mousemove", logUserLocation) 
                    // setDynamicValue(num += multiplyer)
-                   
+                  // e.target.select()
                     handleDrag(userLocation)
                     
-                    console.log("down")
+                   // console.log("down")
                     if(counter % 2 === 0){
                         setUpdate(update+ 1)
                        }else{
@@ -185,7 +213,9 @@ function GrowingInputByPercentage(props) {
         }
         setTimeout(() => {
             infinity()
+            setEditableText(false)
         }, 500)
+    }
         
         addSelfDestructingEventListener(window, "mouseup", tryit) 
     }
@@ -210,25 +240,33 @@ function GrowingInputByPercentage(props) {
 
 
             <input onClick={handleSelect}
-             onDrag={handleDragEnd}
+             onDrag={pauseEvent}
              onMouseDown={exprimental}
              onMouseUp={experimentalEnd}
-            onDrop={handleDragEnd}
-            
+            onDrop={pauseEvent}
+            onFocus={() => {setIndicator(true)}}
+            onBlur={() => {setIndicator(false)}}
             ref={inputRef}
             value={dynamicValue} 
             onChange={handleInputChange}
             defaultValue={`${color ? value : `0${unit}`}`} 
             className={`bg-lightGrey w-full h-full rounded ${iterable ? "pl-4" : "pl-1"}  normal-font` } />
             
-            {hover && 
+            { hover && 
             <div className="absolute right-0 h_24 flex items-center pointer-events-none "> 
 
-                <img onDrag={handleDragEnd} className="" src={growIcon} />
+                <img onDrag={pauseEvent} className="" src={growIcon} />
 
             </div>
 
             }
+
+            {(!hover && indicator) &&
+              <div className="absolute right-0 h_24 flex items-center pointer-events-none "> 
+
+              <img onDrag={pauseEvent} className="" src={growIcon} />
+
+          </div>}
             
             
             {iterable &&  <p className="normal-font absolute pl-1 text-midGrey">{iterable}</p>   }

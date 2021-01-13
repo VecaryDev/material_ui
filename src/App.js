@@ -86,7 +86,7 @@ function App() {
         <div id="right_panel" className="bg-almostWhite ">
 
               <div onScroll={handleScroll}  ref={rightPanel} id="sliders" 
-              className="w_prop h-full items-center flex flex-col overflow-y-scroll overflow-x-hidden hideScrollBar dark:bg-almostBlack" style={{height: "calc(100vh - 70px)"}}>
+              className="w_prop h-full items-center flex flex-col overflow-y-scroll overflow-x-hidden hideScrollBar select-none dark:bg-almostBlack" style={{height: "calc(100vh - 70px)"}}>
 
              
 
