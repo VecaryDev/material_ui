@@ -27,7 +27,7 @@ function GrowingInputByPercentage(props) {
 
 
 
-    let limit = 0.99
+    let limit = 0.1
 
     let counter = 0
 
@@ -47,7 +47,7 @@ function GrowingInputByPercentage(props) {
             setGrowIcon(ArrowGrowDown)
         }
 
-        console.log(dynamicValue, multiplyer, 1 * multiplyer, dynamicValue + (dynamicValue * multiplyer))
+        console.log(dynamicValue, multiplyer, 1 * multiplyer, dynamicValue * multiplyer)
         if(dynamicValue === false){
             setDynamicValue(0 )
         }else{

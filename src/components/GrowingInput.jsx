@@ -27,7 +27,7 @@ function GrowingInput(props) {
 
 
 
-    let limit = 5
+    let limit = 1
 
     let counter = 0
 
@@ -72,8 +72,15 @@ function GrowingInput(props) {
  
     const handleDrag = (location, dynamicData) => {
        if(inputRef !== null) {
-           const difference = inputRef.current.getBoundingClientRect().top + 12 + window.scrollY - location
-           let changingFactor = parseInt(map_float_range(difference, -100, 100, -limit, limit))
+           const difference = inputRef.current.getBoundingClientRect().top + 60 + window.scrollY - location
+           let changingFactor = () => {
+               const growthRate = parseInt(map_float_range(difference, -100, 100, -limit, limit))
+               if(Math.abs(growthRate) < 2){
+                   return 0
+               }else{
+                   return growthRate
+               }
+           }
            //console.log(dynamicValue)
           
            const adjustChange = () => {
@@ -81,10 +88,10 @@ function GrowingInput(props) {
              //  console.log(Math.pow(2, Math.log10(difference)), Math.log10(difference - 1), difference)
             //    if(difference > 0) {
                    
-            //         return Math.ceil( Math.pow(2, changingFactor ))
+            //         return Math.ceil( Math.pow(2, changingFactor() ))
             //    }
             //    else if(difference < 0 ){
-            //     return  Math.floor( Math.pow(2, changingFactor * -1)) * -1
+            //     return  Math.floor( Math.pow(2, changingFactor() * -1)) * -1
             //    }
             //    else{
             //        return 0;
@@ -93,21 +100,27 @@ function GrowingInput(props) {
 
             counter++
            
-            if(changingFactor > 0){
-
-                if(changingFactor > limit){
-                    return Math.pow(2, limit)
+            if(changingFactor() > 0){
+             
+                if(changingFactor() > 5){
+                    return Math.pow(2, 5)
                 }else{
-                    return Math.pow(2, changingFactor)
+                    return Math.pow(2, changingFactor())
                 }
 
-            }else{
-                if(changingFactor < -limit){
-                    return Math.pow(2, limit) * -1
+            }else if(changingFactor < 0){
+                if(changingFactor() < -5){
+                    return Math.pow(2, 5) * -1
                 }else{
-                    return Math.pow(2, Math.abs(changingFactor)) * -1
+                    return Math.pow(2, Math.abs(changingFactor())) * -1
                 }
 
+            }
+            
+            
+            else{
+                return 0
+               
             }
 
             

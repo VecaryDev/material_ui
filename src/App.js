@@ -137,12 +137,12 @@ function App() {
                         <RangeInput />
                       </div>
                       <div>
-                        <p>Growing percentage</p>
-                        <GrowingInputByPercentage />
+                       
+                       
                       </div>
                       <div>
-                        <p>Growing units</p>
-                        <GrowingInput />
+                        <p>Growing input</p>
+                        <GrowingInputByPercentage />
                       </div>
                     </div>
 
