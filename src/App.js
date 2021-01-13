@@ -24,6 +24,7 @@ import Expand from "./containers/Expand"
 
 import RangeInput from "./components/RangeInput"
 import GrowingInput from "./components/GrowingInput"
+import GrowingInputByPercentage from "./components/GrowingInputByPercentage"
 
 
 function App() {
@@ -132,11 +133,15 @@ function App() {
 
                         <div className="flex w-full justify-between px-4 normal-font my-4">
                       <div>
-                        <p>Range Input</p>
+                        <p>Range (0-100)</p>
                         <RangeInput />
                       </div>
                       <div>
-                        <p>Growing Input</p>
+                        <p>Growing percentage</p>
+                        <GrowingInputByPercentage />
+                      </div>
+                      <div>
+                        <p>Growing units</p>
                         <GrowingInput />
                       </div>
                     </div>

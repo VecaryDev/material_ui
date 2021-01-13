@@ -9,7 +9,7 @@ import ArrowGrowDown from "../img/Symbols/Sprites/ArrowGrowDown.svg"
 import ArrowGrow from "../img/Symbols/Sprites/ArrowUpDown.svg"
 
 
-function GrowingInput(props) {
+function GrowingInputByPercentage(props) {
     const {
         iterable,
         unit,
@@ -27,7 +27,7 @@ function GrowingInput(props) {
 
 
 
-    let limit = 5
+    let limit = 0.99
 
     let counter = 0
 
@@ -47,11 +47,16 @@ function GrowingInput(props) {
             setGrowIcon(ArrowGrowDown)
         }
 
-        console.log(dynamicValue, multiplyer)
+        console.log(dynamicValue, multiplyer, 1 * multiplyer, dynamicValue + (dynamicValue * multiplyer))
         if(dynamicValue === false){
-            setDynamicValue(0 + multiplyer)
+            setDynamicValue(0 )
         }else{
-            setDynamicValue(dynamicValue + multiplyer)
+            if(dynamicValue === 0) {
+                setDynamicValue(Math.ceil(2 * multiplyer))
+            }else{
+                setDynamicValue(Math.ceil(dynamicValue + (dynamicValue * multiplyer)))
+            }
+            
         }
         
     }, [multiplyer, update])
@@ -73,7 +78,7 @@ function GrowingInput(props) {
     const handleDrag = (location, dynamicData) => {
        if(inputRef !== null) {
            const difference = inputRef.current.getBoundingClientRect().top + 12 + window.scrollY - location
-           let changingFactor = parseInt(map_float_range(difference, -100, 100, -limit, limit))
+           let changingFactor = map_float_range(difference, -100, 100, -limit, limit)
            //console.log(dynamicValue)
           
            const adjustChange = () => {
@@ -93,19 +98,21 @@ function GrowingInput(props) {
 
             counter++
            
+           
             if(changingFactor > 0){
 
                 if(changingFactor > limit){
-                    return Math.pow(2, limit)
+                    return limit
                 }else{
-                    return Math.pow(2, changingFactor)
+                    return changingFactor
                 }
 
             }else{
+                
                 if(changingFactor < -limit){
-                    return Math.pow(2, limit) * -1
+                    return limit * -1
                 }else{
-                    return Math.pow(2, Math.abs(changingFactor)) * -1
+                   return changingFactor
                 }
 
             }
@@ -229,4 +236,4 @@ function GrowingInput(props) {
     )
 }
 
-export default GrowingInput
+export default GrowingInputByPercentage
