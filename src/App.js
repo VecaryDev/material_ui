@@ -22,6 +22,9 @@ import DashedLine from "./components/DashedLine"
 import LabeledSwitch from "./containers/LabeledSwitch"
 import Expand from "./containers/Expand"
 
+import RangeInput from "./components/RangeInput"
+import GrowingInput from "./components/GrowingInput"
+
 
 function App() {
   const WorkSpaceRef = useRef(null)
@@ -79,9 +82,12 @@ function App() {
           </div>
         </div>
 
-        <div id="right_panel" className="bg-almostWhite">
+        <div id="right_panel" className="bg-almostWhite ">
 
-              <div onScroll={handleScroll}  ref={rightPanel} id="sliders" className="w_prop h-full items-center flex flex-col overflow-y-scroll overflow-x-hidden hideScrollBar" style={{height: "calc(100vh - 70px)"}}>
+              <div onScroll={handleScroll}  ref={rightPanel} id="sliders" 
+              className="w_prop h-full items-center flex flex-col overflow-y-scroll overflow-x-hidden hideScrollBar dark:bg-almostBlack" style={{height: "calc(100vh - 70px)"}}>
+
+             
 
                 <AddMaterial />
 
@@ -122,6 +128,20 @@ function App() {
                    
                   
                     <LabeledSwitch label="Double Sided Material"  padding={true}/>
+                    <DashedLine />
+
+                        <div className="flex w-full justify-between px-4 normal-font my-4">
+                      <div>
+                        <p>Range Input</p>
+                        <RangeInput />
+                      </div>
+                      <div>
+                        <p>Growing Input</p>
+                        <GrowingInput />
+                      </div>
+                    </div>
+
+                    <DashedLine />
 
                     <Expand label="Advanced Options">
                         <div className={advancedOptionSections} >

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 
+import Material from "../components/Material"
 
 
 function MaterialList(){
@@ -12,6 +13,14 @@ function MaterialList(){
             
        
         </div>
+        // <div id="materialList" className="flex flex-col justify-start w-full px-2">
+
+        //     <Material />
+        //     <Material />
+        //     <Material />
+        //     <Material />
+
+        // </div>
     )
 }
 

@@ -58,8 +58,8 @@ function Input(props) {
        }
        
     }
-    const hangleDragEnd =() => {
-       
+    const preventDefaultBehavior =(e) => {
+       e.preventDefault()
     }
     
     useEffect(() => {
@@ -70,7 +70,7 @@ function Input(props) {
         <div className={`${color ? "w_32 ml-1" : "w_56 ml-1"} h_24  relative flex items-center `}>
 
 
-            <input onClick={handleSelect} onDrag={handleDrag} ref={inputRef} value={dynamicValue} onChange={handleInputChange} defaultValue={`${color ? value : `0${unit}`}`} 
+            <input onClick={handleSelect} onDrag={handleDrag} onDrop={preventDefaultBehavior} ref={inputRef} value={dynamicValue} onChange={handleInputChange} defaultValue={`${color ? value : `0${unit}`}`} 
             className={`bg-lightGrey w-full h-full rounded ${iterable ? "pl-4" : "pl-1"}  normal-font` } />
             {iterable &&  <p className="normal-font absolute pl-1 text-midGrey">{iterable}</p>   }
         </div>
