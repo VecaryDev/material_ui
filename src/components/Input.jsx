@@ -46,7 +46,7 @@ function Input(props) {
     useEffect(() => {
         setDynamicValue(dynamicValue + multiplyer.y *-1)
         const newPos = {
-            x:  cursorPos.x + multiplyer.x ,
+            x:  cursorPos.x + multiplyer.x > window.innerWidth - 25  ? window.innerWidth - 25 : cursorPos.x + multiplyer.x < 0 ? 0 : cursorPos.x + multiplyer.x ,
             y: cursorPos.y + multiplyer.y >  window.innerHeight ? 0 : cursorPos.y + multiplyer.y > 0 ? cursorPos.y + multiplyer.y : window.innerHeight
         }
 
