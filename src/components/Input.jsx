@@ -31,7 +31,9 @@ function Input(props) {
     const [cursorPos, setCursorPos] = useState({x: 0, y: 0})
     const [hover, setHover] = useState(false)
     const [growIcon, setGrowIcon] = useState(ArrowGrow)
-    const [indicator, setIndicator] = useState(false)
+    const [update,setUpdate] = useState(false)
+
+    const [selection, setSelection] = useState([])
    
     
     const [inputCoordinates, setInputCoordinates] = useState(null)
@@ -42,8 +44,12 @@ function Input(props) {
 
     let limit = 0.1
 
+    const registrationTimer = 400
+
 
     useEffect(() => {
+
+        if(update){
         setDynamicValue(dynamicValue + multiplyer.y *-1)
         const newPos = {
             x:  cursorPos.x + multiplyer.x > window.innerWidth - 25  ? window.innerWidth - 25 : cursorPos.x + multiplyer.x < 0 ? 0 : cursorPos.x + multiplyer.x ,
@@ -59,8 +65,9 @@ function Input(props) {
         sliderCursor.style.left = `${cursorPos.x}px`
         
        // sliderCursor.style.left = `${e.clientX}px`
+        }
 
-    }, [multiplyer])
+    }, [multiplyer, update])
 
     function changeCallback(e) {
        if(inputRef !== null ) {
@@ -73,7 +80,8 @@ function Input(props) {
                }
             }else{
                 if(sliderState !== "inactive") {
-                //    console.log(document.removeEventListener("mousemove", moveCallback, true))
+                setUpdate(false)
+                sliderCursor.classList.add("hidden")
                 document.removeEventListener("mousemove", moveCallback, true);
                 setSliderState("inactive")
                 }
@@ -126,7 +134,7 @@ useEffect(() => {
        
         let newInput = e.target.value.split(`${unit}`).join("")
        
-        setDynamicValue(newInput )
+        setDynamicValue(parseInt )
        
     }
     const handleSelect = (e) => {
@@ -147,7 +155,8 @@ useEffect(() => {
         
         document.exitPointerLock();
 
-        
+        inputRef.current.select()
+
         sliderCursor.style.top = `0px`
         sliderCursor.style.left = `0px`
         if(sliderCursor.classList !== undefined){
@@ -158,7 +167,7 @@ useEffect(() => {
                 y: inputRef.current.getBoundingClientRect().top
             })
             setMultiplyer(nullValue)
-            console.log("end")
+            console.log(  )
         }
       
        
@@ -167,17 +176,83 @@ useEffect(() => {
 
     function executeSliderChange(e) {
         const element = e.target
+
+        setCursorPos({
+            x: inputRef.current.getBoundingClientRect().x + 50,
+            y: inputRef.current.getBoundingClientRect().top
+        })
         
 
         element.requestPointerLock = element.requestPointerLock ||
 			     element.mozRequestPointerLock ||
 			     element.webkitRequestPointerLock;
         // Ask the browser to lock the pointer
+        
+        
+
         element.requestPointerLock();
+
+        setTimeout(() => {
+            setUpdate(true)
+        }, registrationTimer)
         
      
 
         addSelfDestructingEventListener(window, "mouseup", tryit) 
+    }
+
+    function handleKeyDown(e) {
+       if(e.code === "ArrowUp"){
+        e.preventDefault()
+        setDynamicValue(parseInt(dynamicValue + 1))
+
+       
+
+       }else if(e.code === "ArrowDown"){
+        e.preventDefault()
+        setDynamicValue(parseInt(dynamicValue - 1))
+
+        
+       }else if(e.code.includes("Numpad") || e.code.includes("Digit")){
+           
+
+           if(selection !== undefined){
+            const splitValue = `${dynamicValue}`.split("")
+            splitValue.splice(selection.selectionStart, selection.selectionLength, `${e.key}`)
+            setDynamicValue(parseInt(splitValue.join("")))
+            
+           }else{
+            setDynamicValue(parseInt(dynamicValue + `${e.key}`))
+           }
+           
+           console.log(e.key, dynamicValue, dynamicValue + `${e.key}`, e.target.selectionStart , e.target.selectionEnd )
+       }else if(e.code === "Enter"){
+
+            
+
+       }
+       
+
+       
+       
+    }
+
+    function handleSelection(e) {
+        const start = e.target.selectionStart
+        const end = e.target.selectionEnd
+        if(start === end){
+            setSelection(undefined)
+
+        }else{
+            setSelection({
+                selectionStart: start,
+                selectionLength: end - start
+            })
+
+        }
+
+       
+        
     }
 
 
@@ -200,10 +275,9 @@ useEffect(() => {
             onClick={handleSelect}
              onDrag={pauseEvent}
              onMouseDown={executeSliderChange}
-            
+            onKeyDown={handleKeyDown}
             onDrop={pauseEvent}
-            onFocus={() => {setIndicator(true)}}
-            onBlur={() => {setIndicator(false)}}
+           onSelect={handleSelection}
             ref={inputRef}
             value={dynamicValue} 
            

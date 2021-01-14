@@ -145,8 +145,8 @@ function App() {
                     <Expand label="Advanced Options">
                         <div className={advancedOptionSections} >
 
-                        <LabeledInput label="Anisotropy" labelType="title" type="rangeInput"  hasButton={true} plus={true}   input={defaultInputs.single("%")} />
-                        <LabeledInput  label="Rotation" type="buttonless"  input={defaultInputs.single("°")}  />
+                        <LabeledInput label="Anisotropy 0-100%" labelType="title" type="rangeInput"  hasButton={true} plus={true}   input={defaultInputs.single("%")} />
+                        <LabeledInput  label="Rotation - Range" type="buttonless"  input={defaultInputs.single("°")}  />
 
                         </div>
 
