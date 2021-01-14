@@ -70,6 +70,9 @@ function LabeledInput(props) {
             case "link":
                 setButtonIcon(Link)
                 break;
+            case "empty": 
+                setButtonIcon(Plus)
+                break;
             default:
                 setButtonIcon(Plus)
         }
@@ -94,7 +97,7 @@ function LabeledInput(props) {
            //setProgress(editedPropertyProgress.progress)
        }
         
-        if(globalStateCopy.MaterialPorperties.length > 0 && id === undefined && openPopup && icon === undefined){
+        if(globalStateCopy.MaterialPorperties.length > 0 && id === undefined && openPopup && (icon === undefined || icon === "empty")){
          
             dispatch({type: "ADD_ACTIVE_MATERIAL_POPUP", payload: {
                 id: globalStateCopy.MaterialPorperties.filter(x => x.name == label)[0].id

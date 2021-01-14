@@ -6,7 +6,8 @@ import TextSlider from "./containers/TextSlider"
 import TexturePopup from "./containers/TexturePopup"
 import LabeledInput from "./containers/LabeledInput"
 
-import { v4 as uuidv4 } from 'uuid';
+
+import ValueDragCursor from "./img/Symbols/cursors/cursor-valueDrag-vertical.svg"
 
 import Background from "./img/Background.png"
 import Toolbar from "./img/toolbar.png"
@@ -26,6 +27,7 @@ import RangeInput from "./components/RangeInput"
 import GrowingInput from "./components/GrowingInput"
 import GrowingInputByPercentage from "./components/GrowingInputByPercentage"
 
+document.title = "Vectary Prototype - Material UI"
 
 function App() {
   const WorkSpaceRef = useRef(null)
@@ -35,9 +37,12 @@ function App() {
 
   const advancedOptionSections= "overflow-auto px-2"
 
+  const grwothRef = useRef(null)
+
   useEffect(() => {
     dispatch({type: "ADD_WORKSPACE_REF", payload: {
-      ref: WorkSpaceRef
+      ref: WorkSpaceRef,
+      grwothRef: grwothRef
     }})
   }, [WorkSpaceRef])
   useEffect( () => {
@@ -63,6 +68,10 @@ function App() {
 
   return (
     <div  className="App font-inter overflow-hidden transition-none ">
+
+
+       <img ref={grwothRef} src={ValueDragCursor} className="absolute z-50 hidden" />
+
 
       <div id="MenuBar" className="w-full h_56 bg-primary z-10 relative" style={{ background: `url(${Navbar}) no-repeat center top/100% auto`}}></div>
       <div id="Workspace" className="flex">
@@ -97,7 +106,9 @@ function App() {
                 <DashedLine />
 
                     {/* If no properties are passed down the default slider is shown */}
-                    <TextSlider  />
+                   <div className="px-4 my-2 w-full">
+                   <LabeledInput type="empty" input={defaultInputs.empty()}  label="Base" labelType="title"  hasButton={true}  type="rangeInput" />
+                   </div>
 
                     {/* Prop name is only set if specified. By default it will say "Property", 
                     you would need to write propName="Something" in order to name the slider "Something"
@@ -119,7 +130,7 @@ function App() {
 
                     */}
 
-                    <TextSlider  propName="Base" active={true} decimal={true} maximum={100} unit={"%"}/>
+                    
                     <TextSlider  propName="Metalness" active={true} decimal={false} maximum={100} unit={"%"}/>
                     <TextSlider  propName="Opacity" active={true} decimal={false} maximum={100} unit={"%"}/>
                     <TextSlider  propName="Emission" active={true} decimal={false} maximum={1000} unit={"%"}/>
@@ -129,24 +140,11 @@ function App() {
                    
                   
                     <LabeledSwitch label="Double Sided Material"  padding={true}/>
-                    <DashedLine />
 
-                        <div className="flex w-full justify-between px-4 normal-font my-4">
-                      <div>
-                        <p>Range (0-100)</p>
-                        <RangeInput />
-                      </div>
-                      <div>
-                       
-                       
-                      </div>
-                      <div>
-                        <p>Growing input</p>
-                        <GrowingInputByPercentage unit={"%"} />
-                      </div>
+
+                    <div>
+                      <GrowingInputByPercentage value={0}/>
                     </div>
-
-                    <DashedLine />
 
                     <Expand label="Advanced Options">
                         <div className={advancedOptionSections} >

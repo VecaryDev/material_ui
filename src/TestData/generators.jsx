@@ -12,6 +12,12 @@ import Switch from "../components/Switch"
 import { v4 as uuidv4 } from 'uuid';
 
 export const defaultInputs = {
+    empty: () => {
+        return {
+            iterable: [],
+            unit: undefined
+        }
+    },
     single: (unit = null) => {
        return {
             iterable: [0],

@@ -9,7 +9,9 @@ import ArrowGrowDown from "../img/Symbols/Sprites/ArrowGrowDown.svg"
 import ArrowGrow from "../img/Symbols/Sprites/ArrowUpDown.svg"
 
 
-function GrowingInput(props) {
+
+
+function Input(props) {
     const {
         iterable,
         unit,
@@ -22,12 +24,13 @@ function GrowingInput(props) {
     const [update, setUpdate] = useState(0)
     const [hover, setHover] = useState(false)
     const [growIcon, setGrowIcon] = useState(ArrowGrow)
-
+    const [indicator, setIndicator] = useState(false)
+    
     const inputRef = useRef(null)
 
 
 
-    let limit = 1
+    let limit = 0.1
 
     let counter = 0
 
@@ -36,8 +39,7 @@ function GrowingInput(props) {
 
     let num = 0
 
-
-
+    
 
     useEffect(() => {
 
@@ -47,11 +49,28 @@ function GrowingInput(props) {
             setGrowIcon(ArrowGrowDown)
         }
 
-        console.log(dynamicValue, multiplyer)
+      
+
+
+       
         if(dynamicValue === false){
-            setDynamicValue(0 + multiplyer)
+            setDynamicValue(0 + unit )
         }else{
-            setDynamicValue(dynamicValue + multiplyer)
+            const processedDynamicValue = parseInt(dynamicValue.split(`${unit}`).join(""))
+            
+            if(processedDynamicValue === 0) {
+                setDynamicValue(Math.ceil(2 * multiplyer) + unit)
+            }else{
+               if(multiplyer > 0.005){
+                    setDynamicValue(Math.ceil(processedDynamicValue + (processedDynamicValue * multiplyer)) + unit)
+               }else if (multiplyer < -0.005) {
+                     setDynamicValue(Math.floor(processedDynamicValue + (processedDynamicValue * multiplyer)) + unit)
+                
+               }else{
+                    setDynamicValue(processedDynamicValue + unit)    
+               }
+            }
+            
         }
         
     }, [multiplyer, update])
@@ -64,7 +83,7 @@ function GrowingInput(props) {
        
     }
     const handleSelect = (e) => {
-        e.target.select()
+      
 
 
     }
@@ -72,15 +91,8 @@ function GrowingInput(props) {
  
     const handleDrag = (location, dynamicData) => {
        if(inputRef !== null) {
-           const difference = inputRef.current.getBoundingClientRect().top + 60 + window.scrollY - location
-           let changingFactor = () => {
-               const growthRate = parseInt(map_float_range(difference, -100, 100, -limit, limit))
-               if(Math.abs(growthRate) < 2){
-                   return 0
-               }else{
-                   return growthRate
-               }
-           }
+           const difference = inputRef.current.getBoundingClientRect().top + 12 + window.scrollY - location
+           let changingFactor = map_float_range(difference, -100, 100, -limit, limit)
            //console.log(dynamicValue)
           
            const adjustChange = () => {
@@ -88,10 +100,10 @@ function GrowingInput(props) {
              //  console.log(Math.pow(2, Math.log10(difference)), Math.log10(difference - 1), difference)
             //    if(difference > 0) {
                    
-            //         return Math.ceil( Math.pow(2, changingFactor() ))
+            //         return Math.ceil( Math.pow(2, changingFactor ))
             //    }
             //    else if(difference < 0 ){
-            //     return  Math.floor( Math.pow(2, changingFactor() * -1)) * -1
+            //     return  Math.floor( Math.pow(2, changingFactor * -1)) * -1
             //    }
             //    else{
             //        return 0;
@@ -100,27 +112,23 @@ function GrowingInput(props) {
 
             counter++
            
-            if(changingFactor() > 0){
-             
-                if(changingFactor() > 5){
-                    return Math.pow(2, 5)
+           
+            if(changingFactor > 0){
+
+                if(changingFactor > limit){
+                    return limit
                 }else{
-                    return Math.pow(2, changingFactor())
+                    return changingFactor
                 }
 
-            }else if(changingFactor < 0){
-                if(changingFactor() < -5){
-                    return Math.pow(2, 5) * -1
+            }else{
+                
+                if(changingFactor < -limit){
+                    return limit * -1
                 }else{
-                    return Math.pow(2, Math.abs(changingFactor())) * -1
+                   return changingFactor
                 }
 
-            }
-            
-            
-            else{
-                return 0
-               
             }
 
             
@@ -137,8 +145,12 @@ function GrowingInput(props) {
        }
        
     }
-    const handleDragEnd = (e) => {
-       e.preventDefault();
+    function pauseEvent(e){
+        if(e.stopPropagation) e.stopPropagation();
+        if(e.preventDefault) e.preventDefault();
+        e.cancelBubble=true;
+        e.returnValue=false;
+        return false;
     }
     
     let addSelfDestructingEventListener = (element, eventType, callback) => {
@@ -152,7 +164,17 @@ function GrowingInput(props) {
     function tryit() {
       //  console.log("UP")
         dragOver = true
+        const selection = inputRef.current.value.substring(inputRef.current.selectionStart, inputRef.current.selectionEnd);
         
+        inputRef.current.select()
+        console.log(selection)
+        
+        document.exitPointerLock = document.exitPointerLock ||
+        document.mozExitPointerLock ||
+        document.webkitExitPointerLock;
+        
+        document.exitPointerLock();
+      
        // counter = 0
        
     }
@@ -167,18 +189,32 @@ function GrowingInput(props) {
     }
 
     function exprimental(e) {
+        const element = e.target
+
+        element.requestPointerLock = element.requestPointerLock ||
+			     element.mozRequestPointerLock ||
+			     element.webkitRequestPointerLock;
+        // Ask the browser to lock the pointer
+        element.requestPointerLock();
         
+
+
         dragOver = false
+
+        const selection = inputRef.current.value.substring(inputRef.current.selectionStart, inputRef.current.selectionEnd);
+        
+        if(selection === "") {
+      
         function infinity() {
            
-            if(!dragOver){
+            if(!dragOver ){
                 setTimeout(() => {
                     addSelfDestructingEventListener(window, "mousemove", logUserLocation) 
                    // setDynamicValue(num += multiplyer)
-                   
+                  // e.target.select()
                     handleDrag(userLocation)
                     
-                    console.log("down")
+                   // console.log("down")
                     if(counter % 2 === 0){
                         setUpdate(update+ 1)
                        }else{
@@ -186,12 +222,14 @@ function GrowingInput(props) {
                        }
                       
                     infinity()
-                }, 100)
+                }, 50)
             }
         }
         setTimeout(() => {
             infinity()
-        }, 500)
+           
+        }, 100)
+    }
         
         addSelfDestructingEventListener(window, "mouseup", tryit) 
     }
@@ -216,25 +254,33 @@ function GrowingInput(props) {
 
 
             <input onClick={handleSelect}
-             onDrag={handleDragEnd}
+             onDrag={pauseEvent}
              onMouseDown={exprimental}
              onMouseUp={experimentalEnd}
-            onDrop={handleDragEnd}
-            
+            onDrop={pauseEvent}
+            onFocus={() => {setIndicator(true)}}
+            onBlur={() => {setIndicator(false)}}
             ref={inputRef}
             value={dynamicValue} 
             onChange={handleInputChange}
             defaultValue={`${color ? value : `0${unit}`}`} 
             className={`bg-lightGrey w-full h-full rounded ${iterable ? "pl-4" : "pl-1"}  normal-font` } />
             
-            {hover && 
+            { hover && 
             <div className="absolute right-0 h_24 flex items-center pointer-events-none "> 
 
-                <img onDrag={handleDragEnd} className="" src={growIcon} />
+                <img onDrag={pauseEvent} className="" src={growIcon} />
 
             </div>
 
             }
+
+            {(!hover && indicator) &&
+              <div className="absolute right-0 h_24 flex items-center pointer-events-none "> 
+
+              <img onDrag={pauseEvent} className="" src={growIcon} />
+
+          </div>}
             
             
             {iterable &&  <p className="normal-font absolute pl-1 text-midGrey">{iterable}</p>   }
@@ -242,4 +288,4 @@ function GrowingInput(props) {
     )
 }
 
-export default GrowingInput
+export default Input

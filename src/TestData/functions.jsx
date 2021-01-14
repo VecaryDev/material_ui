@@ -64,3 +64,21 @@ export function setDefaultTexture(payload, id){
     }]
     payload.id = id
    }
+
+
+   export function pauseEvent(e){
+    if(e.stopPropagation) e.stopPropagation();
+    if(e.preventDefault) e.preventDefault();
+    e.cancelBubble=true;
+    e.returnValue=false;
+    return false;
+}
+
+
+export const addSelfDestructingEventListener = (element, eventType, callback) => {
+    let handler = (e) => {
+        callback(e);
+        element.removeEventListener(eventType, handler);
+    };
+    element.addEventListener(eventType, handler);
+};

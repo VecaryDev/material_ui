@@ -22,7 +22,8 @@ export const MetaDataReducer =(state = defaultMetaData, action) =>  {
         case "ADD_WORKSPACE_REF":
             return {
                 ...state,
-                WorkspaceRef: action.payload.ref
+                WorkspaceRef: action.payload.ref,
+                grwothRef: action.payload.grwothRef
             }
 
         case "SET_SCROLL_OFFSET": 

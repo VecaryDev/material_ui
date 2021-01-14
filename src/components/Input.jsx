@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState, useContext } from "react"
 
 import {map_float_range} from "../TestData/functions"
 
@@ -9,6 +9,11 @@ import ArrowGrowDown from "../img/Symbols/Sprites/ArrowGrowDown.svg"
 import ArrowGrow from "../img/Symbols/Sprites/ArrowUpDown.svg"
 
 
+import {TexturePorpertyContext} from "../context/texturePropertyContext"
+
+import { v4 as uuidv4 } from 'uuid';
+
+import {addSelfDestructingEventListener, pauseEvent} from "../TestData/functions"
 
 
 function Input(props) {
@@ -18,62 +23,104 @@ function Input(props) {
         color,
         value
     } = props
-    
+    const {globalState, dispatch} = useContext(TexturePorpertyContext)
     const [dynamicValue, setDynamicValue] = useState(false)
-    const [multiplyer, setMultiplyer] = useState(0)
-    const [update, setUpdate] = useState(0)
+    const [multiplyer, setMultiplyer] = useState({x: 0, y:0})
+    const [sliderState, setSliderState] = useState("")
+
+    const [cursorPos, setCursorPos] = useState({x: 0, y: 0})
     const [hover, setHover] = useState(false)
     const [growIcon, setGrowIcon] = useState(ArrowGrow)
     const [indicator, setIndicator] = useState(false)
+   
     
+    const [inputCoordinates, setInputCoordinates] = useState(null)
+
     const inputRef = useRef(null)
 
-
+    const sliderCursor = globalState.MetaData.grwothRef.current
 
     let limit = 0.1
 
-    let counter = 0
-
-    let dragOver = true
-    let userLocation = 0
-
-    let num = 0
-
-    
 
     useEffect(() => {
-
-        if(multiplyer > 0) {
-            setGrowIcon(ArrowGrowUp)
-        }else{
-            setGrowIcon(ArrowGrowDown)
+        setDynamicValue(dynamicValue + multiplyer.y *-1)
+        const newPos = {
+            x:  cursorPos.x + multiplyer.x ,
+            y: cursorPos.y + multiplyer.y >  window.innerHeight ? 0 : cursorPos.y + multiplyer.y > 0 ? cursorPos.y + multiplyer.y : window.innerHeight
         }
+
+        setCursorPos(newPos)
+        console.log(newPos,  cursorPos)
 
       
 
-
-       
-        if(dynamicValue === false){
-            setDynamicValue(0 + unit )
-        }else{
-            const processedDynamicValue = parseInt(dynamicValue.split(`${unit}`).join(""))
-            
-            if(processedDynamicValue === 0) {
-                setDynamicValue(Math.ceil(2 * multiplyer) + unit)
-            }else{
-               if(multiplyer > 0.005){
-                    setDynamicValue(Math.ceil(processedDynamicValue + (processedDynamicValue * multiplyer)) + unit)
-               }else if (multiplyer < -0.005) {
-                     setDynamicValue(Math.floor(processedDynamicValue + (processedDynamicValue * multiplyer)) + unit)
-                
-               }else{
-                    setDynamicValue(processedDynamicValue + unit)    
-               }
-            }
-            
-        }
+        sliderCursor.style.top = `${cursorPos.y}px`
+        sliderCursor.style.left = `${cursorPos.x}px`
         
-    }, [multiplyer, update])
+       // sliderCursor.style.left = `${e.clientX}px`
+
+    }, [multiplyer])
+
+    function changeCallback(e) {
+       if(inputRef !== null ) {
+           
+            if(document.pointerLockElement === inputRef.current || document.webkitPointerLockElement === inputRef.current){
+               if(sliderState !== "active") {
+              //  console.log("Added")
+                document.addEventListener("mousemove", moveCallback, true);
+                setSliderState("active")
+               }
+            }else{
+                if(sliderState !== "inactive") {
+                //    console.log(document.removeEventListener("mousemove", moveCallback, true))
+                document.removeEventListener("mousemove", moveCallback, true);
+                setSliderState("inactive")
+                }
+            }
+
+       }
+       
+    }
+
+    function moveCallback(e) {
+        var movementX = e.movementX ||
+        e.mozMovementX          ||
+        e.webkitMovementX       ||
+        0,
+    movementY = e.movementY ||
+        e.mozMovementY      ||
+        e.webkitMovementY   ||
+        0;
+      
+
+        sliderCursor.classList.remove("hidden")
+
+        if(inputRef !== null) {
+            setMultiplyer({x: movementX  , y: movementY  })
+        }
+       
+    }
+
+
+    useEffect(() => {
+        if(inputRef !== null){
+            setInputCoordinates(inputRef.current.getBoundingClientRect())
+            setCursorPos({x: inputRef.current.getBoundingClientRect().x + 35, y: inputRef.current.getBoundingClientRect().top })
+           console.log( globalState.MetaData.offsetY )
+        }
+    }, [globalState.MetaData])
+
+useEffect(() => {
+
+    document.addEventListener('pointerlockchange', changeCallback, false);
+    document.addEventListener('mozpointerlockchange', changeCallback, false);
+    document.addEventListener('webkitpointerlockchange', changeCallback, false);
+
+    // Hook mouse move events
+    setDynamicValue(0)
+}, [])
+    
 
     const handleInputChange = (e) => {
        
@@ -84,144 +131,53 @@ function Input(props) {
     }
     const handleSelect = (e) => {
       
-
+      
 
     }
 
- 
-    const handleDrag = (location, dynamicData) => {
-       if(inputRef !== null) {
-           const difference = inputRef.current.getBoundingClientRect().top + 12 + window.scrollY - location
-           let changingFactor = map_float_range(difference, -100, 100, -limit, limit)
-           //console.log(dynamicValue)
-          
-           const adjustChange = () => {
-              // console.log(dynamicValue +  Math.pow(2, Math.log10(difference )- 1))
-             //  console.log(Math.pow(2, Math.log10(difference)), Math.log10(difference - 1), difference)
-            //    if(difference > 0) {
-                   
-            //         return Math.ceil( Math.pow(2, changingFactor ))
-            //    }
-            //    else if(difference < 0 ){
-            //     return  Math.floor( Math.pow(2, changingFactor * -1)) * -1
-            //    }
-            //    else{
-            //        return 0;
-                    
-            //    }
-
-            counter++
-           
-           
-            if(changingFactor > 0){
-
-                if(changingFactor > limit){
-                    return limit
-                }else{
-                    return changingFactor
-                }
-
-            }else{
-                
-                if(changingFactor < -limit){
-                    return limit * -1
-                }else{
-                   return changingFactor
-                }
-
-            }
-
-            
-           }
-           setTimeout(() => {
-              
-            //console.log(dynamicValue, adjustChange(),  parseInt(dynamicValue + adjustChange() ), counter, num);
-            //num += parseInt( adjustChange() )
-            setMultiplyer(adjustChange())
-           }, 50)
-          
-          
-
-       }
-       
-    }
-    function pauseEvent(e){
-        if(e.stopPropagation) e.stopPropagation();
-        if(e.preventDefault) e.preventDefault();
-        e.cancelBubble=true;
-        e.returnValue=false;
-        return false;
-    }
-    
-    let addSelfDestructingEventListener = (element, eventType, callback) => {
-        let handler = (e) => {
-            callback(e);
-            element.removeEventListener(eventType, handler);
-        };
-        element.addEventListener(eventType, handler);
-    };
 
     function tryit() {
-      //  console.log("UP")
-        dragOver = true
-        const selection = inputRef.current.value.substring(inputRef.current.selectionStart, inputRef.current.selectionEnd);
+ 
         
-      
-        console.log(selection)
-      
-       // counter = 0
-       
-    }
+        document.exitPointerLock = document.exitPointerLock ||
+        document.mozExitPointerLock ||
+        document.webkitExitPointerLock;
 
-    function logUserLocation(e) {
-        console.log(e.clientY)
-     
-       if(e.clientY !== undefined){
-             userLocation = e.clientY
-       }
-       
-    }
-
-    function exprimental(e) {
-       
+        document.removeEventListener("mousemove", moveCallback, true);
         
-        dragOver = false
+        document.exitPointerLock();
 
-        const selection = inputRef.current.value.substring(inputRef.current.selectionStart, inputRef.current.selectionEnd);
         
-        if(selection === "") {
-      
-        function infinity() {
-           
-            if(!dragOver ){
-                setTimeout(() => {
-                    addSelfDestructingEventListener(window, "mousemove", logUserLocation) 
-                   // setDynamicValue(num += multiplyer)
-                  // e.target.select()
-                    handleDrag(userLocation)
-                    
-                   // console.log("down")
-                    if(counter % 2 === 0){
-                        setUpdate(update+ 1)
-                       }else{
-                        setUpdate(false)
-                       }
-                      
-                    infinity()
-                }, 50)
-            }
+        sliderCursor.style.top = `0px`
+        sliderCursor.style.left = `0px`
+        if(sliderCursor.classList !== undefined){
+            sliderCursor.classList.add("hidden")
+            const nullValue = {x: 0, y:0}
+            setCursorPos({
+                x: inputRef.current.getBoundingClientRect().x + 50,
+                y: inputRef.current.getBoundingClientRect().top
+            })
+            setMultiplyer(nullValue)
+            console.log("end")
         }
-        setTimeout(() => {
-            infinity()
-           
-        }, 100)
-    }
-        
-        addSelfDestructingEventListener(window, "mouseup", tryit) 
+      
+       
     }
 
-    function experimentalEnd() {
-        console.log("up")
+
+    function executeSliderChange(e) {
+        const element = e.target
+        
+
+        element.requestPointerLock = element.requestPointerLock ||
+			     element.mozRequestPointerLock ||
+			     element.webkitRequestPointerLock;
+        // Ask the browser to lock the pointer
+        element.requestPointerLock();
+        
+     
+
+        addSelfDestructingEventListener(window, "mouseup", tryit) 
     }
 
 
@@ -239,15 +195,18 @@ function Input(props) {
         className={`${color ? "w_32 ml-1" : "w_56 ml-1"} h_24  relative flex items-center `}>
 
 
-            <input onClick={handleSelect}
+            <input
+            id={uuidv4()}
+            onClick={handleSelect}
              onDrag={pauseEvent}
-             onMouseDown={exprimental}
-             onMouseUp={experimentalEnd}
+             onMouseDown={executeSliderChange}
+            
             onDrop={pauseEvent}
             onFocus={() => {setIndicator(true)}}
             onBlur={() => {setIndicator(false)}}
             ref={inputRef}
             value={dynamicValue} 
+           
             onChange={handleInputChange}
             defaultValue={`${color ? value : `0${unit}`}`} 
             className={`bg-lightGrey w-full h-full rounded ${iterable ? "pl-4" : "pl-1"}  normal-font` } />
@@ -261,13 +220,9 @@ function Input(props) {
 
             }
 
-            {(!hover && indicator) &&
-              <div className="absolute right-0 h_24 flex items-center pointer-events-none "> 
+           
 
-              <img onDrag={pauseEvent} className="" src={growIcon} />
-
-          </div>}
-            
+           
             
             {iterable &&  <p className="normal-font absolute pl-1 text-midGrey">{iterable}</p>   }
         </div>
