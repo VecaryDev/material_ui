@@ -228,7 +228,7 @@ useEffect(() => {
            console.log(e.key, dynamicValue, dynamicValue + `${e.key}`, e.target.selectionStart , e.target.selectionEnd )
        }else if(e.code === "Enter"){
 
-            
+            e.target.blur()
 
        }
        
