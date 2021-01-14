@@ -142,10 +142,6 @@ function App() {
                     <LabeledSwitch label="Double Sided Material"  padding={true}/>
 
 
-                    <div>
-                      <GrowingInputByPercentage value={0}/>
-                    </div>
-
                     <Expand label="Advanced Options">
                         <div className={advancedOptionSections} >
 
