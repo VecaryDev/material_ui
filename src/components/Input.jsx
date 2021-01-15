@@ -5,42 +5,59 @@ import ArrowGrow from "../img/Symbols/Sprites/ArrowUpDown.svg";
 import { TexturePorpertyContext } from "../context/texturePropertyContext";
 
 import { v4 as uuidv4 } from "uuid";
-
-import {
-  addSelfDestructingEventListener,
-  pauseEvent,
-} from "../TestData/functions";
+import {  addSelfDestructingEventListener,  pauseEvent } from "../TestData/functions";
 
 function Input(props) {
+    //Basic input properties
   const { iterable, unit, color, value } = props;
+
+    //There is only one range slider Cursor in the app, and the globalstate has a reference to it
   const { globalState, dispatch } = useContext(TexturePorpertyContext);
+
+  //The value displayed in the input field
   const [dynamicValue, setDynamicValue] = useState(false);
+
+  // rate of change by dragging. Based on the motion of the cursor (y: -3 -> Up, y: 3 -> Down)
   const [multiplyer, setMultiplyer] = useState({ x: 0, y: 0 });
+
+  //either active or inactive
   const [sliderState, setSliderState] = useState("");
 
+  // The position of the Slider cursor
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+
+  //Hover is triggered based on parent. Can be repleaced with CSS
   const [hover, setHover] = useState(false);
-  const [growIcon, setGrowIcon] = useState(ArrowGrow);
+
+  //Delays the execution of Dragging by registrationTimer<variable>, is set in executeSliderChange 
   const [update, setUpdate] = useState(false);
+
+  //saved if shift iis held down. used for multi key hotkey e.g. shift + arrowLeft
   const [shiftDown, setShiftDown] = useState(false);
 
+  //saves the text selection
   const [selection, setSelection] = useState([]);
 
-  const [inputCoordinates, setInputCoordinates] = useState(null);
-
+  //the input element reference
   const inputRef = useRef(null);
 
+  //Reference to the range cursor which is saved to the global state in Context
   const sliderCursor = globalState.MetaData.grwothRef.current;
 
-  let limit = 0.1;
-
+  //list of supported operators
   const operatorKeycodes = ["+", "-", "*", "/"];
 
+  //delay of the dragging to be registered in miliseconds
   const registrationTimer = 400;
 
+
+  //Update value if dragging is on
   useEffect(() => {
     if (update) {
-      setDynamicValue(dynamicValue + multiplyer.y * -1);
+        //set value - parsed to remove unit, than added the change ~ <-3, 3>, inverted and unit added to the end
+      setDynamicValue((parseInt(dynamicValue) + multiplyer.y * -1) + unit);
+      //setting range cursor position, with additional catches e.g. if it is on the top of the screen
+      //move it to the bottom, and do not allow it to exit the screen horizontally
       const newPos = {
         x:
           cursorPos.x + multiplyer.x > window.innerWidth - 25
@@ -57,8 +74,9 @@ function Input(props) {
       };
 
       setCursorPos(newPos);
-      console.log(newPos, cursorPos);
+      //console.log(newPos, cursorPos);
 
+      //set Cursor Position
       sliderCursor.style.top = `${cursorPos.y}px`;
       sliderCursor.style.left = `${cursorPos.x}px`;
 
@@ -66,6 +84,34 @@ function Input(props) {
     }
   }, [multiplyer, update]);
 
+
+//saves the rate of movement to multiplyer
+  function moveCallback(e) {
+    var movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0,
+      movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
+
+    sliderCursor.classList.remove("hidden");
+
+    if (inputRef !== null) {
+      setMultiplyer({ x: movementX, y: movementY });
+    }
+  }
+
+//sets the initial value for the cursor
+  useEffect(() => {
+    if (inputRef !== null) {
+     
+      setCursorPos({
+        x: inputRef.current.getBoundingClientRect().x + 35,
+        y: inputRef.current.getBoundingClientRect().top,
+      });
+      console.log(globalState.MetaData.offsetY);
+    }
+  }, [globalState.MetaData]);
+
+  
+  //adds an Event listener if dragging happens, and removes it if it is stopped
+  //connected to the PointerLock which is set below
   function changeCallback(e) {
     if (inputRef !== null) {
       if (
@@ -88,56 +134,39 @@ function Input(props) {
     }
   }
 
-  function moveCallback(e) {
-    var movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0,
-      movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
-
-    sliderCursor.classList.remove("hidden");
-
-    if (inputRef !== null) {
-      setMultiplyer({ x: movementX, y: movementY });
-    }
-  }
-
-  useEffect(() => {
-    if (inputRef !== null) {
-      setInputCoordinates(inputRef.current.getBoundingClientRect());
-      setCursorPos({
-        x: inputRef.current.getBoundingClientRect().x + 35,
-        y: inputRef.current.getBoundingClientRect().top,
-      });
-      console.log(globalState.MetaData.offsetY);
-    }
-  }, [globalState.MetaData]);
-
+  //PointerLock events and default value initialized
   useEffect(() => {
     document.addEventListener("pointerlockchange", changeCallback, false);
     document.addEventListener("mozpointerlockchange", changeCallback, false);
     document.addEventListener("webkitpointerlockchange", changeCallback, false);
 
     // Hook mouse move events
-    setDynamicValue(0);
+    setDynamicValue(0 + unit);
   }, []);
 
-  const handleInputChange = (e) => {
-    let newInput = e.target.value.split(`${unit}`).join("");
-
-    setDynamicValue();
-  };
+ 
+  
   const handleSelect = (e) => {};
 
-  function tryit() {
+
+  //executes when the mouse is released 
+  function onSliderChangeEnd() {
+
+    //initialize exitPointerLock
     document.exitPointerLock =
       document.exitPointerLock ||
       document.mozExitPointerLock ||
       document.webkitExitPointerLock;
 
+      //removes the event listener which is responsible for changing the value while dragging
     document.removeEventListener("mousemove", moveCallback, true);
 
     document.exitPointerLock();
 
+    //selects the input
     inputRef.current.select();
 
+    //resets the cursor and multipyer
     sliderCursor.style.top = `0px`;
     sliderCursor.style.left = `0px`;
     if (sliderCursor.classList !== undefined) {
@@ -155,6 +184,8 @@ function Input(props) {
     }
   }
 
+ 
+//The start of the dragging event
   function executeSliderChange(e) {
     const element = e.target;
 
@@ -171,39 +202,63 @@ function Input(props) {
 
     element.requestPointerLock();
 
+    //depays the dragging event to be fired
     setTimeout(() => {
       setUpdate(true);
     }, registrationTimer);
 
-    addSelfDestructingEventListener(window, "mouseup", tryit);
+    //this event listener only runs once, and then destoryed
+    addSelfDestructingEventListener(window, "mouseup", onSliderChangeEnd);
   }
 
+  //if Enter is pressed or clicked outside the input
   const handleBlur = (e) => {
     let hasOperation = false;
 
     operatorKeycodes.map((keycode) => {
       if (e.target.value.includes(keycode)) {
-        setDynamicValue(parseInt(eval(e.target.value)));
+          if(unit !== undefined){
+              const stringifiedValue = `${e.target.value}`
+            const processedValue = stringifiedValue.replace(unit, "")
+            try{
+                setDynamicValue(eval(processedValue) + unit);
+            } catch {
+                if(e instanceof SyntaxError ){
+                    console.log("syntax error")
+                    setDynamicValue(parseInt(dynamicValue) + unit);
+                }else {
+                    console.log("error")
+                    setDynamicValue(parseInt(dynamicValue) + unit);
+                    
+                }
+            }
+           
+
+          }else{
+            setDynamicValue(eval(e.target.value) + unit);
+          }
+        
         hasOperation = true;
       }
     });
 
     if (!hasOperation) {
-      setDynamicValue(parseInt(dynamicValue));
+      setDynamicValue(parseInt(dynamicValue) + unit);
     }
   }
 
+  //Actions on different keys / key combinations
   function handleKeyDown(e) {
     e.preventDefault();
 
     if (e.code === "ArrowUp") {
       console.log("ArrowUp");
       e.preventDefault();
-      setDynamicValue(dynamicValue + 1);
+      setDynamicValue((parseInt(dynamicValue) + 1) + unit);
     } else if (e.code === "ArrowDown") {
       console.log("arrowDown");
       e.preventDefault();
-      setDynamicValue(dynamicValue - 1);
+      setDynamicValue((parseInt(dynamicValue) - 1) + unit);
     } else if (e.code === "ArrowLeft" || e.code === "ArrowRight") {
       if (shiftDown) {
         if (e.code === "ArrowRight") {
@@ -225,6 +280,7 @@ function Input(props) {
     } else if (/\d/.test(e.code)) {
       console.log("Number");
       const splitValue = `${dynamicValue}`.split("");
+     
 
       if (splitValue.length === 1 && splitValue[0] == 0) {
         splitValue.pop();
@@ -293,6 +349,7 @@ function Input(props) {
     }
   }
 
+  //Redefining Text selection because we have prevented default by having a custom onKeyDown behavior
   function handleSelection(e) {
     const start = e.target.selectionStart;
     const end = e.target.selectionEnd;
@@ -306,6 +363,7 @@ function Input(props) {
     }
   }
 
+  //if shift is released
   function handleKeyUp(e) {
     if (e.key === "Shift") {
       setShiftDown(false);
@@ -320,7 +378,7 @@ function Input(props) {
     <div
       onMouseOver={() => {
         setHover(true);
-        setGrowIcon(ArrowGrow);
+        
       }}
       onMouseLeave={() => {
         setHover(false);
@@ -341,7 +399,7 @@ function Input(props) {
         onSelect={handleSelection}
         ref={inputRef}
         value={dynamicValue}
-        onChange={handleInputChange}
+        
         defaultValue={`${color ? value : `0${unit}`}`}
         className={`bg-lightGrey w-full h-full rounded ${
           iterable ? "pl-4" : "pl-1"
@@ -349,7 +407,7 @@ function Input(props) {
       />{" "}
       {hover && (
         <div className="absolute right-0 h_24 flex items-center pointer-events-none ">
-          <img onDrag={pauseEvent} className="" src={growIcon} />
+          <img onDrag={pauseEvent} className="" src={ArrowGrow} />
         </div>
       )}
       {iterable && (

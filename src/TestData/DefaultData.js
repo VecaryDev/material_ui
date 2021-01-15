@@ -317,13 +317,13 @@ const SolidTabTypes = () => {
 
 export const AnisotropyDefaults = [
     {
-        name: "option 1"
+        name: "Glass"
     },
     {
-        name: "option 2"
+        name: "Water"
     },
     {
-        name: "option 3"
+        name: "Honey"
     },
    
 ]
