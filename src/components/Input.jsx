@@ -252,9 +252,10 @@ function Input(props) {
       e.code === "Delete" ||
       e.code === "Space"
     ) {
+        const splitValue = `${dynamicValue}`.split("");
       console.log("delete");
       if (selection !== undefined) {
-        const splitValue = `${dynamicValue}`.split("");
+       
         splitValue.splice(selection.selectionStart, selection.selectionLength);
 
         if (splitValue.length !== 0) {
@@ -262,6 +263,15 @@ function Input(props) {
         } else {
           setDynamicValue(0);
         }
+      }else {
+          if(e.code === "Backspace"){
+              splitValue.splice(e.target.value.length - 1, 1)
+              if(splitValue.length > 0) {
+                setDynamicValue(splitValue.join(""))
+              }else {
+                  setDynamicValue(0)
+              }
+          }
       }
     } else if (operatorKeycodes.includes(e.key)) {
       console.log("operator");
