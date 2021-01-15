@@ -280,7 +280,7 @@ function Input(props) {
       splitValue.splice(e.target.selectionStart, 0, `${e.key}`);
       console.log(e.key, splitValue.join(""));
       setDynamicValue(splitValue.join(""));
-    } else if (e.code === "Enter") {
+    } else if (e.key === "Enter") {
       console.log("enter");
 
       handleBlur(e);
