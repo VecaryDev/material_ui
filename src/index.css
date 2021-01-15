@@ -164,6 +164,11 @@
     font-size: 12px;
   }
 
+  .RangeSlider {
+    /* cursor: url("./img/Symbols/cursors/cursor-valueDrag-vertical.svg"), auto; */
+  }
+
+
   input:focus, textarea:focus, select:focus{
     outline: none;
 }
@@ -177,7 +182,7 @@ input::-webkit-inner-spin-button {
   -moz-osx-font-smoothing: grayscale;
   font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
- 
+  cursor: url("./img/Symbols/cursors/cursor-default.svg"), auto;
 }
   
 }
