@@ -52,6 +52,7 @@ function TexturePopup(props) {
     useOutsideAlerter(popUpWindow, dispatch, globalState)
     
    useEffect(() => {
+
        //Resets the tab
     setActiveTab(0)
 
@@ -78,6 +79,7 @@ function TexturePopup(props) {
    
 
     //sends the path to the textureSlider components where can the corresponding data be found. -- Not the best way to solve --
+
     if(activeProperty !== undefined 
         && globalState.MaterialPorperties[activeProperty] !== undefined 
         && globalState.MaterialPorperties[activeProperty].textureTypes[activeTexture].tabTypes[activeTab] !== undefined) {

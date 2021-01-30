@@ -34,6 +34,7 @@ function TextSlider(props){
     //the progress of the slider e.g. 57%
     const [progress, setProgress]= useState(0)
     //if true slider is not movable
+
     const [disabled, setDisabled] = useState(false)
     //Maximum for the slider
     const [max, setMax] = useState(100)

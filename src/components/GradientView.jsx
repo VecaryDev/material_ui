@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from "react"
 import Draggable from "react-draggable"
 
+<<<<<<< HEAD
 import {map_range} from "../utils/remap"
+=======
+import {map_range} from "../TestData/functions"
+>>>>>>> 1ee769786931efbbd492b7cb2e7821ad194f3e5c
 
 
 function GradientView() {

@@ -24,9 +24,10 @@ import DashedLine from "./components/DashedLine"
 import LabeledSwitch from "./containers/LabeledSwitch"
 import Expand from "./containers/Expand"
 
-import RangeInput from "./components/RangeInput"
-import GrowingInput from "./components/GrowingInput"
-import GrowingInputByPercentage from "./components/GrowingInputByPercentage"
+//different experiments with component behaviors -- Might not work anymore?!
+// import RangeInput from "./components/RangeInput"
+// import GrowingInput from "./components/GrowingInput"
+// import GrowingInputByPercentage from "./components/GrowingInputByPercentage"
 
 document.title = "Vectary Prototype - Material UI"
 

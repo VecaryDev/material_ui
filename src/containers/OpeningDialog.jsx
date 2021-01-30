@@ -3,7 +3,6 @@ import React from "react"
 
 function OpenDialog() {
     
-// --- WORK IN PROGRESS ---
 
     return(
         <div className={`absolute z-40`}>
