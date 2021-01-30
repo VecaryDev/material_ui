@@ -33,8 +33,9 @@ function TextSlider(props){
    
     const propName = props.propName || "Parameter"
     const colorSlider = props.colorSlider || false
+    
 
-    const [progress, setProgress]= useState(0)
+    const [progress, setProgress]= useState( 0)
     const [disabled, setDisabled] = useState(false)
     const [max, setMax] = useState(100)
     const [openPopup, setOpenPopup] = useState(false)

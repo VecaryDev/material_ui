@@ -44,6 +44,7 @@ function LabeledInput(props) {
     const [localLabel, setLocalLabel] = useState("")
 
     const [buttonIcon, setButtonIcon] = useState(Plus)
+    const [reducedValue, setReducedValue] = useState([])
 
     const [toggleDorpdown, setToggleDropdown] = useState(false)
 
@@ -58,7 +59,7 @@ function LabeledInput(props) {
        
         switch (icon) {
             
-            case "picker":
+            case "colorPicker":
                 setButtonIcon(colorPicker)
                 break;
             case "dropdown":
@@ -116,6 +117,18 @@ function LabeledInput(props) {
         
     }, [openPopup])
 
+    useEffect(() => {
+        if(input !== undefined && type=== "colorPicker"){
+           const newList = []
+           for(const [key, value] of Object.entries(input.iterable)){
+               newList.push({
+                   name: value.label
+               })
+           }
+           
+           setReducedValue(newList)
+        }
+    }, [input])
 
 
     return(
@@ -129,9 +142,19 @@ function LabeledInput(props) {
                
             :
             <div   
+            onClick={() => {setToggleDropdown(!toggleDorpdown)}}
             className={` bg-lightGrey h-full w_48 flex justify-center items-center normal-font`}>
             { localLabel} 
             <img className="" src={DownArrow} />
+            <Dropdown 
+                setToggleDropdown={setToggleDropdown} 
+                list={reducedValue} 
+                defaultState={true} 
+                style={{
+                    width: "48px",
+                    marginLeft: "0px",
+                    marginTop: "16px"}}
+                className={`absolute z-10 w-28 bg-almostBlack text-almostWhite ${!toggleDorpdown && "hidden"}`}/>
             </div>
          
             }

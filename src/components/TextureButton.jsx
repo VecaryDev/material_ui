@@ -19,7 +19,7 @@ function TextureButton(props) {
         <>
         <button onClick={handleClick}  className={`${className !== undefined ? className : "ml-2"} ${type == "circle" ? "rounded-xl overflow-hidden bg-lightGrey" 
         : type=== "transparent" ? "" : "bg-lightGrey"} 
-        icon  focus:outline-none  focus:ring-1 focus:ring-primary  focus:almostBlack rounded-sm flex justify-center items-center `}>
+        icon  focus:outline-none  focus:ring-1 focus:ring-primary  focus:almostBlack rounded-sm flex justify-center items-center defaultCursor`}>
             <img src={`${props.img || Plus}`}  alt={`${props.alt || "add texture"}`}/>
         </button>
           

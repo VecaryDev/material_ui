@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useRef, useState,useLayoutEffect } from "react"
-import Draggable from "react-draggable"
+import React, { useContext, useEffect, useRef, useState } from "react"
 
 import {TexturePorpertyContext} from "../context/texturePropertyContext"
  
@@ -53,6 +52,11 @@ function TexturePopup(props) {
     const [properties, setProperties] = useState([])
 
     useOutsideAlerter(popUpWindow, dispatch, globalState)
+    
+   useEffect(() => {
+    setActiveTab(0)
+    console.log(activeTab, activeTexture, activeProperty, activeType)
+}, [activeTexture])
 
     useEffect(() => {
      
@@ -73,7 +77,10 @@ function TexturePopup(props) {
 
    useEffect(() => {
    
-    if(activeProperty !== undefined && globalState.MaterialPorperties[activeProperty] !== undefined) {
+    if(activeProperty !== undefined 
+        && globalState.MaterialPorperties[activeProperty] !== undefined 
+        && globalState.MaterialPorperties[activeProperty].textureTypes[activeTexture].tabTypes[activeTab] !== undefined) {
+
         const path = {
             activeProperty: activeProperty,
             activeTexture: activeTexture,
@@ -94,13 +101,15 @@ function TexturePopup(props) {
         activeType: activeType
     }
 
-    console.table(test)
+    console.table(activeTab, activeTexture, activeType, "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
     if( globalState.MaterialPorperties[activeProperty] !== undefined) {
         console.log(globalState.MaterialPorperties[activeProperty].textureTypes[activeTexture])
     }
 
+    
    }, [activeProperty,activeTexture, activeTab, activeType, open])
+
 
     function handleHoverStart() {
        
@@ -120,7 +129,7 @@ function TexturePopup(props) {
        {globalState.MaterialPorperties[activeType] ? 
          <div ref={popUpWindow} 
          className={`${open ? "" : "hidden"} 
-         w_props-row  bg-white absolute rounded-sm overflow-hidden `} 
+         w_props-row  bg-white absolute rounded-sm  `} 
          style={{minHeight: "350px"}}>
 
                <PopUpView  

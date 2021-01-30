@@ -22,7 +22,7 @@ export const ImageTabTypes = () => { return [
             unit: "°",
             max: 180,
             min: -180,
-            progress: 0,
+            progress: -180,
             setProgress: (value) => {this.progress = value},
             rigid: true,
             label: "Hue"
@@ -33,7 +33,7 @@ export const ImageTabTypes = () => { return [
             unit: "°",
             max: 180,
             min: -180,
-            progress: 0,
+            progress: -180,
             setProgress: (value) => {this.progress = value},
             rigid: true,
             label: "Saturation"
@@ -44,7 +44,7 @@ export const ImageTabTypes = () => { return [
             unit: "°",
             max: 180,
             min: -180,
-            progress: 0,
+            progress: -180,
             setProgress: (value) => {this.progress = value},
             rigid: true,
             label: "Brightness"
@@ -55,7 +55,7 @@ export const ImageTabTypes = () => { return [
             unit: "°",
             max: 180,
             min: -180,
-            progress: 0,
+            progress: -180,
             setProgress: (value) => {this.progress = value},
             rigid: true,
             label: "Contrast"

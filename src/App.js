@@ -5,6 +5,7 @@ import _uniqueId from 'lodash/uniqueId';
 import TextSlider from "./containers/TextSlider"
 import TexturePopup from "./containers/TexturePopup"
 import LabeledInput from "./containers/LabeledInput"
+import OpenDialog from "./containers/OpeningDialog"
 
 
 import ValueDragCursor from "./img/Symbols/cursors/cursor-valueDrag-vertical.svg"
@@ -69,6 +70,7 @@ function App() {
   return (
     <div  className="App font-inter overflow-hidden transition-none ">
 
+       <OpenDialog />
 
        <img ref={grwothRef} src={ValueDragCursor} className="absolute z-50 hidden" />
 

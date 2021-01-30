@@ -15,7 +15,7 @@ function Tab(props){
                 return <div key={index} 
                 onClick={handleClick}
                 id={`tab_index-${index}`}
-                className={`normal-font w-full text-center h_24 border-b cursor-pointer
+                className={`normal-font w-full text-center h_24 border-b 
                 ${active === index ? "border-primary text-primary font-semibold" : "text-softGrey border-softGrey"} `} 
                 >{option.name}</div>
 

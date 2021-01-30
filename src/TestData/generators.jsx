@@ -51,7 +51,8 @@ export const defaultInputs = {
                     label: "HEX",
                     default: ["#fffff"]
                 }
-            ]
+            ],
+            icon: "colorPicker"
         }
     }
 }
@@ -92,7 +93,7 @@ export const generateProperties = (listOfProperties, path) => {
                     break;
             case "switch":
                
-              console.log(newSwitch(property.input), property.input , "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
+              console.log(newSwitch(property.input), property.input  )
 
                     propertyArray.push(
                         <LabeledSwitch
@@ -123,6 +124,7 @@ export const generateProperties = (listOfProperties, path) => {
                 }
                
                 console.log("HERE")
+                const inputObject = newNumberInput(property.input)
                 propertyArray.push(
                 
                 <LabeledInput 
@@ -133,7 +135,10 @@ export const generateProperties = (listOfProperties, path) => {
                 hasButton={property.hasButton}  
                 type={property.input.type}
                 mainProperty={false}
-                input={newNumberInput(property.input)}   />
+                input={inputObject}
+                icon={inputObject.icon}
+                
+                />
                 
                 )
 
