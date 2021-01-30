@@ -1,5 +1,4 @@
 # Material UI React prototype
-
 This is the common repository for the Mtaerial UI prototype for Vectary, this file is later synced with Codesandbox for testing and prototyping purposes
 
 
@@ -9,3 +8,6 @@ needs to be set on production to execute three shaking
 
 # Figmagic 
 figmagic
+
+# Deploying to GitHub pages
+npm run deploy
