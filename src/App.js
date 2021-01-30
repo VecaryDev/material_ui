@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useContext, useState } from "react"
 
-import {defaultInputs} from "./TestData/generators"
+import {defaultInputs} from "./utils/generators"
 import _uniqueId from 'lodash/uniqueId';
 import TextSlider from "./containers/TextSlider"
 import TexturePopup from "./containers/TexturePopup"
 import LabeledInput from "./containers/LabeledInput"
+import OpenDialog from "./containers/OpeningDialog"
 
 
 import ValueDragCursor from "./img/Symbols/cursors/cursor-valueDrag-vertical.svg"
@@ -30,45 +31,36 @@ import GrowingInputByPercentage from "./components/GrowingInputByPercentage"
 document.title = "Vectary Prototype - Material UI"
 
 function App() {
+  //Reference to the 3D space, this is then posted to global state and reused later
   const WorkSpaceRef = useRef(null)
+  //Context API call
   const {globalState, dispatch} = useContext(TexturePorpertyContext)
-  const [firstChildInitialPos, setFirstChildInitialPos] = useState(0)
+
+  //Reference to the Right panel
   const rightPanel = useRef(null)
 
+  //Classnames that are reused in all wrapper objects for the input fields. This could be moved inside the component
   const advancedOptionSections= "overflow-auto px-2"
 
+  //Growing cursor reference, it is in the page in a hidden form
   const grwothRef = useRef(null)
 
+  //Adding workspace to the globalState
   useEffect(() => {
     dispatch({type: "ADD_WORKSPACE_REF", payload: {
       ref: WorkSpaceRef,
       grwothRef: grwothRef
     }})
   }, [WorkSpaceRef])
-  useEffect( () => {
-    
-    setFirstChildInitialPos(rightPanel !== null && rightPanel.current.children[0].getBoundingClientRect().top)
-  }, [])
-
-  function handleScroll(e){
-    const firstChildCurrentPos = rightPanel.current.children[0].getBoundingClientRect()
-    let offset = 0
-    if(firstChildCurrentPos <= firstChildInitialPos + 56) {
-      rightPanel.current.scrollTop = 0
-    }else{
-      offset = firstChildCurrentPos.top - 74 + window.scrollY
-    }
-
-    
-    console.log(firstChildCurrentPos.top + window.scrollY )
-    dispatch({type: "SET_SCROLL_OFFSET", payload: {
-      offsetY: offset
-    }})
-  }
+ 
+  
 
   return (
     <div  className="App font-inter overflow-hidden transition-none ">
 
+      {/* Work in progress  - New Dialog on startup*/}
+
+       <OpenDialog />
 
        <img ref={grwothRef} src={ValueDragCursor} className="absolute z-50 hidden" />
 
@@ -80,21 +72,25 @@ function App() {
           <div id="toolbar" className="w-full h_40 bg-primaryLight" style={{ background: `url(${Toolbar}) no-repeat center top/100% auto`}}></div>
           <div className="w-full h-full flex">
               <div id="leftSideBar" className="w_prop h-full bg-almostWhite" style={{ background: `url(${leftSideBar}) no-repeat center top/100% auto`}}></div>
+
               <div id="3DSpace" ref={WorkSpaceRef} className=" h-full bg-almostBlack p-3" style={{
                 width: "calc(100% - 248px)", 
                 height: "calc(100% )",
                 background: `url(${Background}) no-repeat center top/100% auto`
                 }}>
 
+                {/* The Texture Popup window is inside, hidden in the 3D space */}
 
                 <TexturePopup />
               </div>
           </div>
         </div>
 
+        {/* All components inside this will land in the Right Panel */}
+
         <div id="right_panel" className="bg-almostWhite ">
 
-              <div onScroll={handleScroll}  ref={rightPanel} id="sliders" 
+              <div   ref={rightPanel} id="sliders" 
               className="w_prop h-full items-center flex flex-col overflow-y-scroll overflow-x-hidden hideScrollBar select-none dark:bg-almostBlack" style={{height: "calc(100vh - 70px)"}}>
 
              

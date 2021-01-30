@@ -12,11 +12,12 @@ function Expand(props) {
         setOpen(!open)
     }
 
+    //Hides it's children but can expand on click
 
     return (
         <div className="w_prop ">
             <div className="mx-2 overflow-visible text-almostBlack font-title">
-            <div onClick={clickHandler} className=" w-full  h_40 flex items-end cursor-pointer mb-2">
+            <div onClick={clickHandler} className=" w-full  h_40 flex items-end mb-2">
                 <img src={ExpandHandle} alt="expand" style={{
                     marginLeft: "-6px",
                     transform: !open && "rotate(-90deg)"

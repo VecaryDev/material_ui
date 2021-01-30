@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { generateInputs, defaultInputs } from "../TestData/generators"
+import { generateInputs, defaultInputs } from "../utils/generators"
 
-import Switch from "../components/Switch"
 
 
 function LabeledSwitch(props){
@@ -16,7 +15,7 @@ function LabeledSwitch(props){
     
 
     useEffect(() => {
-       
+       // Generates input based on the JS object passed to the input porop
         setInputs(generateInputs(input  || defaultInputs.single(), "switch"))
     }, [input])
 

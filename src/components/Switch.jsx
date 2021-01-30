@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { generateInputs } from "../TestData/generators"
+import { generateInputs } from "../utils/generators"
 
 
 

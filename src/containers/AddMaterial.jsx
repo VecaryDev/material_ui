@@ -2,7 +2,7 @@ import React, {useState} from "react"
 
 import TextureButton from "../components/TextureButton"
 
-
+//Has no real functionality implemented since material list is an iframe 
 function AddMaterial(props) {
     const {propName } = props
     const[state, setState] = useState(false)

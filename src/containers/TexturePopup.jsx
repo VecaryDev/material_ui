@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useRef, useState,useLayoutEffect } from "react"
-import Draggable from "react-draggable"
+import React, { useContext, useEffect, useRef, useState } from "react"
 
 import {TexturePorpertyContext} from "../context/texturePropertyContext"
  
-import {generateProperties} from "../TestData/generators"
+import {generateProperties} from "../utils/generators"
 
 import Dropdown from "../components/dropdown"
 import PopUpView from "../components/popUpView"
@@ -11,9 +10,7 @@ import Tab from "../components/Tab"
 
 function useOutsideAlerter(ref, dispatch, globalState) {
     useEffect(() => {
-        /**
-         * Alert if clicked on outside of element
-         */
+       
         function handleClickOutside(event) {
             if (ref.current && !ref.current.contains(event.target)) {
                 if(globalState.MetaData.WorkspaceRef && event.target === globalState.MetaData.WorkspaceRef.current){
@@ -33,12 +30,11 @@ function useOutsideAlerter(ref, dispatch, globalState) {
     }, [ref, globalState]);
 }
 
-Array.prototype.move = function (from, to) {
-    this.splice(to, 0, this.splice(from, 1)[0]);
-  };
-
+//The popup that displays all the props of the material protperty
 function TexturePopup(props) {
+    //context API reference
     const {globalState, dispatch}= useContext(TexturePorpertyContext)
+    
     
     const [open, setOpen] = useState(true)
     const [hover, setHover] = useState(false)
@@ -49,14 +45,21 @@ function TexturePopup(props) {
     const [activeTab, setActiveTab] = useState(0) //The index of the active submenu currently open (e.g. Adjust / Transform)
     const [activeType, setActiveType] = useState(0) // 
 
-
+    //array of React components that are being rendered in the popup
     const [properties, setProperties] = useState([])
 
+    //close on outside click
     useOutsideAlerter(popUpWindow, dispatch, globalState)
+    
+   useEffect(() => {
+       //Resets the tab
+    setActiveTab(0)
+
+}, [activeTexture])
 
     useEffect(() => {
      
-
+        //if a new popup is opened resets all the values and finds the values of that property
            setOpen(globalState.MetaData.activeTexturePopup !== "")
            setActiveTab(0)
            setActiveType(0)
@@ -73,7 +76,12 @@ function TexturePopup(props) {
 
    useEffect(() => {
    
-    if(activeProperty !== undefined && globalState.MaterialPorperties[activeProperty] !== undefined) {
+
+    //sends the path to the textureSlider components where can the corresponding data be found. -- Not the best way to solve --
+    if(activeProperty !== undefined 
+        && globalState.MaterialPorperties[activeProperty] !== undefined 
+        && globalState.MaterialPorperties[activeProperty].textureTypes[activeTexture].tabTypes[activeTab] !== undefined) {
+
         const path = {
             activeProperty: activeProperty,
             activeTexture: activeTexture,
@@ -87,21 +95,12 @@ function TexturePopup(props) {
 
             
     }
-    const test = {
-        activeProperty: activeProperty,
-        activeTexture: activeTexture,
-        activeTab: activeTab,
-        activeType: activeType
-    }
 
-    console.table(test)
-
-    if( globalState.MaterialPorperties[activeProperty] !== undefined) {
-        console.log(globalState.MaterialPorperties[activeProperty].textureTypes[activeTexture])
-    }
-
+    
    }, [activeProperty,activeTexture, activeTab, activeType, open])
 
+
+   //Hover states
     function handleHoverStart() {
        
         setHover(true)
@@ -120,7 +119,7 @@ function TexturePopup(props) {
        {globalState.MaterialPorperties[activeType] ? 
          <div ref={popUpWindow} 
          className={`${open ? "" : "hidden"} 
-         w_props-row  bg-white absolute rounded-sm overflow-hidden `} 
+         w_props-row  bg-white absolute rounded-sm  `} 
          style={{minHeight: "350px"}}>
 
                <PopUpView  

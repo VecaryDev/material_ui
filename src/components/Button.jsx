@@ -13,7 +13,7 @@ function Button(props){
             <button className="w-full normal-font w-full  focus:ring focus:outline-none
             flex items-center justify-center 
             hover:bg-almostWhite hover:text-almostBlack 
-            transition-colors cursor-pointer mb-1 h_24 
+            transition-colors  mb-1 h_24 
             border border-almostWhite rounded-sm">{buttonText || "Button"}</button>
 
             {label && 

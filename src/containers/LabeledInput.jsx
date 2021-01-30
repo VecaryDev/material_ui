@@ -4,7 +4,7 @@ import {TexturePorpertyContext} from "../context/texturePropertyContext"
 
 import DownArrow from "../img/Symbols/Sprites/ArrowDown.svg"
 
-import {generateInputs, payloadGenerator} from "../TestData/generators"
+import {generateInputs} from "../utils/generators"
 
 import colorPicker from "../img/Symbols/Sprites/PipetteColor.svg"
 
@@ -37,28 +37,36 @@ function LabeledInput(props) {
         hasButton,
         buttonClick
     } = props
+
+    //if it is on the right panel or inside a popup
     const mainProperty = props.mainProperty !== undefined ? props.mainProperty : true
+    //array of React components 
     const [inputs, setInputs] = useState([])
+    //Context API
     const {globalState, dispatch} = useContext(TexturePorpertyContext)
+    //opens popup if certain conditions are true
     const [openPopup, setOpenPopup] = useState(false)
+    //The label displayed in the components - some checks are being done on it first
     const [localLabel, setLocalLabel] = useState("")
-
+    //type of icon
     const [buttonIcon, setButtonIcon] = useState(Plus)
+    const [reducedValue, setReducedValue] = useState([])
 
+    
     const [toggleDorpdown, setToggleDropdown] = useState(false)
 
-    const payload = payloadGenerator(label)
    
    
     const newId =  id ? id : uuidv4()
 
     useEffect(()=>{
-        console.log(mainProperty)
+        
+        //sets the button icon to the right one
         type == "colorPicker" ? setLocalLabel(input.iterable[0].label) : setLocalLabel(label)
        
         switch (icon) {
             
-            case "picker":
+            case "colorPicker":
                 setButtonIcon(colorPicker)
                 break;
             case "dropdown":
@@ -77,6 +85,7 @@ function LabeledInput(props) {
                 setButtonIcon(Plus)
         }
 
+        //adds property to global state
         dispatch({type: "ADD_ONE_PROP", payload:{
             id: newId,
             name: label,
@@ -84,17 +93,19 @@ function LabeledInput(props) {
             images: defaultImages
         }}) 
 
+        // Generates input based on the JS object passed to the input porop
         setInputs(generateInputs(input, type || null))
     }, [])
 
     useEffect(() => {
         const globalStateCopy = globalState
 
+        //loads edited props
        if(path){
            const loadEditedProperties = globalState.MaterialPorperties[path.activeProperty].textureTypes[path.activeTexture].tabTypes[path.activeTab]
            const editedPropertyProgress = loadEditedProperties.properties.filter(x => x.id === id)[0]
            console.log(editedPropertyProgress.progress, editedPropertyProgress.id)
-           //setProgress(editedPropertyProgress.progress)
+          
        }
         
         if(globalStateCopy.MaterialPorperties.length > 0 && id === undefined && openPopup && (icon === undefined || icon === "empty")){
@@ -116,6 +127,18 @@ function LabeledInput(props) {
         
     }, [openPopup])
 
+    useEffect(() => {
+        if(input !== undefined && type=== "colorPicker"){
+           const newList = []
+           for(const [key, value] of Object.entries(input.iterable)){
+               newList.push({
+                   name: value.label
+               })
+           }
+           
+           setReducedValue(newList)
+        }
+    }, [input])
 
 
     return(
@@ -129,9 +152,19 @@ function LabeledInput(props) {
                
             :
             <div   
+            onClick={() => {setToggleDropdown(!toggleDorpdown)}}
             className={` bg-lightGrey h-full w_48 flex justify-center items-center normal-font`}>
             { localLabel} 
             <img className="" src={DownArrow} />
+            <Dropdown 
+                setToggleDropdown={setToggleDropdown} 
+                list={reducedValue} 
+                defaultState={true} 
+                style={{
+                    width: "48px",
+                    marginLeft: "0px",
+                    marginTop: "16px"}}
+                className={`absolute z-10 w-28 bg-almostBlack text-almostWhite ${!toggleDorpdown && "hidden"}`}/>
             </div>
          
             }

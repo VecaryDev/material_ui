@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react"
 
-import {map_float_range} from "../TestData/functions"
+import {map_float_range} from "../utils/remap"
 
 import ArrowGrowUp from "../img/Symbols/Sprites/ArrowGrowUp.svg"
 import ArrowGrowDown from "../img/Symbols/Sprites/ArrowGrowDown.svg"

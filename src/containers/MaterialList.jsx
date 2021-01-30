@@ -4,7 +4,8 @@ import Material from "../components/Material"
 
 
 function MaterialList(){
-    const [legacyCodeLoader, setLegacyCodeLoader] = useState("")
+    
+    //This lives in a different GitHub page since it was already made in vanilla JS.
 
     const iframe = `<iframe src="https://vecarydev.github.io/MaterialList/" width="248" height="225"> </iframe>`
    
@@ -13,14 +14,7 @@ function MaterialList(){
             
        
         </div>
-        // <div id="materialList" className="flex flex-col justify-start w-full px-2">
-
-        //     <Material />
-        //     <Material />
-        //     <Material />
-        //     <Material />
-
-        // </div>
+        
     )
 }
 

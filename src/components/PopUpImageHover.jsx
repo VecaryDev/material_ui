@@ -18,8 +18,8 @@ function PopUpImageHover({images, handleHoverStart,  handleHoverEnd, hover, acti
             {hover && 
             <>
                 <div id="top_icon-wrap " className="w-full  flex justify-between">
-                    <img className="w_24 h_24 cursor-pointer hover:bg-strongGrey hover:border-strongGrey" src={Reset} />
-                    <img className="w_24 h_24 cursor-pointer hover:bg-strongGrey hover:border-strongGrey" src={Download} />
+                    <img className="w_24 h_24  hover:bg-strongGrey hover:border-strongGrey" src={Reset} />
+                    <img className="w_24 h_24 hover:bg-strongGrey hover:border-strongGrey" src={Download} />
                 </div>
 
                 <div id="content_wrap" className="mt-10" >

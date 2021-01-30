@@ -5,7 +5,8 @@ import ArrowGrow from "../img/Symbols/Sprites/ArrowUpDown.svg";
 import { TexturePorpertyContext } from "../context/texturePropertyContext";
 
 import { v4 as uuidv4 } from "uuid";
-import {  addSelfDestructingEventListener,  pauseEvent } from "../TestData/functions";
+import {  addSelfDestructingEventListener } from "../utils/selfDistructingEventListener";
+import {pauseEvent} from "../utils/pauseEvent"
 
 function Input(props) {
     //Basic input properties
@@ -38,6 +39,9 @@ function Input(props) {
   //saves the text selection
   const [selection, setSelection] = useState([]);
 
+  //save selectionStart if shift is held down
+  const [savedSelectionStart, setSavedSelectionStart] = useState(0)
+
   //the input element reference
   const inputRef = useRef(null);
 
@@ -48,7 +52,7 @@ function Input(props) {
   const operatorKeycodes = ["+", "-", "*", "/"];
 
   //delay of the dragging to be registered in miliseconds
-  const registrationTimer = 400;
+  const registrationTimer = 0;
 
 
   //Update value if dragging is on
@@ -146,7 +150,11 @@ function Input(props) {
 
  
   
-  const handleSelect = (e) => {};
+  const handleSelect = (e) => {
+    if(selection === undefined){
+      e.target.select()
+    }
+  };
 
 
   //executes when the mouse is released 
@@ -187,13 +195,14 @@ function Input(props) {
  
 //The start of the dragging event
   function executeSliderChange(e) {
-    const element = e.target;
+    const element = inputRef.current;
 
     setCursorPos({
       x: inputRef.current.getBoundingClientRect().x + 50,
       y: inputRef.current.getBoundingClientRect().top,
     });
 
+    
     element.requestPointerLock =
       element.requestPointerLock ||
       element.mozRequestPointerLock ||
@@ -205,6 +214,9 @@ function Input(props) {
     //depays the dragging event to be fired
     setTimeout(() => {
       setUpdate(true);
+      setHover(false)
+      element.focus()
+      
     }, registrationTimer);
 
     //this event listener only runs once, and then destoryed
@@ -214,6 +226,9 @@ function Input(props) {
   //if Enter is pressed or clicked outside the input
   const handleBlur = (e) => {
     let hasOperation = false;
+    console.log("removeCHanges")
+    sliderCursor.classList.add("hidden")
+    document.getSelection().removeAllRanges()
 
     operatorKeycodes.map((keycode) => {
       if (e.target.value.includes(keycode)) {
@@ -262,14 +277,16 @@ function Input(props) {
     } else if (e.code === "ArrowLeft" || e.code === "ArrowRight") {
       if (shiftDown) {
         if (e.code === "ArrowRight") {
-          console.log(e.target.selectionStart);
-          e.target.selectionStart += 1;
+          console.log(selection, "SHOFT");
+          e.target.selectionStart = savedSelectionStart - 1;
+          e.target.selectionEnd += 1
         } else {
           e.target.selectionStart -= 1;
         }
       } else {
+        setSavedSelectionStart(e.target.selectionStart)
         if (e.code === "ArrowRight") {
-          console.log(e.target.selectionStart);
+          console.log(selection);
           e.target.selectionEnd += 1;
           e.target.selectionStart = e.target.selectionEnd;
         } else {
@@ -309,19 +326,22 @@ function Input(props) {
       e.code === "Space"
     ) {
         const splitValue = `${dynamicValue}`.split("");
-      console.log("delete");
-      if (selection !== undefined) {
-       
+        console.log(selection);
+        if (selection !== undefined) {
+          console.log(splitValue, selection.selectionStart)
         splitValue.splice(selection.selectionStart, selection.selectionLength);
-
+      
         if (splitValue.length !== 0) {
           setDynamicValue(splitValue.join(""));
         } else {
           setDynamicValue(0);
         }
+
       }else {
+        console.log("splitValue");
           if(e.code === "Backspace"){
               splitValue.splice(e.target.value.length - 1, 1)
+              
               if(splitValue.length > 0) {
                 setDynamicValue(splitValue.join(""))
               }else {
@@ -351,11 +371,16 @@ function Input(props) {
 
   //Redefining Text selection because we have prevented default by having a custom onKeyDown behavior
   function handleSelection(e) {
-    const start = e.target.selectionStart;
-    const end = e.target.selectionEnd;
+    const start = inputRef.current.selectionStart;
+    const end = inputRef.current.selectionEnd;
+   
+
+    
     if (start === end) {
       setSelection(undefined);
+      //inputRef.current.select()
     } else {
+      console.log(start, end )
       setSelection({
         selectionStart: start,
         selectionLength: end - start,
@@ -378,10 +403,13 @@ function Input(props) {
     <div
       onMouseOver={() => {
         setHover(true);
+       
         
       }}
       onMouseLeave={() => {
         setHover(false);
+        sliderCursor.classList.add("hidden");
+
       }}
       className={`${
         color ? "w_32 ml-1" : "w_56 ml-1"
@@ -391,7 +419,7 @@ function Input(props) {
         id={uuidv4()}
         onClick={handleSelect}
         onDrag={pauseEvent}
-        onMouseDown={executeSliderChange}
+        onMouseLeave={() => {setHover(false)}}
         onKeyDown={handleKeyDown}
         onKeyUp={handleKeyUp}
         onDrop={pauseEvent}
@@ -401,15 +429,15 @@ function Input(props) {
         value={dynamicValue}
         
         defaultValue={`${color ? value : `0${unit}`}`}
-        className={`bg-lightGrey w-full h-full rounded ${
+        className={`bg-lightGrey w-full h-full focus:outline-none  focus:ring-1 focus:ring-primary  rounded ${
           iterable ? "pl-4" : "pl-1"
-        } normal-font RangeSlider`}
+        } normal-font defaultCursor`}
       />{" "}
-      {hover && (
-        <div className="absolute right-0 h_24 flex items-center pointer-events-none ">
+      
+        <div  onDrag={pauseEvent} onMouseDown={executeSliderChange} className={`${hover ? "flex" : "hidden"} absolute right-0 h_24  items-center z-50 bg-lightGrey rounded RangeSlider`}>
           <img onDrag={pauseEvent} className="" src={ArrowGrow} />
         </div>
-      )}
+      
       {iterable && (
         <p className="normal-font absolute pl-1 text-midGrey">{iterable}</p>
       )}

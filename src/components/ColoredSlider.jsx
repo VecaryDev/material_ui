@@ -3,7 +3,7 @@ import Draggable from 'react-draggable';
 
 import {gradients} from "../TestData/DefaultData"
 
-import {map_range, map_float_range} from "../TestData/functions"
+import {map_range, map_float_range} from "../utils/remap"
 
 
 function ColoredSlider(props){

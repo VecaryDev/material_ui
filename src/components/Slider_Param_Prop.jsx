@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import _uniqueId from 'lodash/uniqueId';
-import {useOutsideClickDetection} from "../TestData/functions"
+import {useOutsideClickDetection} from "../utils/outsideClickDetector"
 
 function SliderParamProp(props) {
     const {

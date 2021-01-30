@@ -50,7 +50,7 @@ function Dropdown(props){
     return (
         <div id="texture_dropdown" 
         onClick={handleDropdown}
-        className={`${className ? className : "relative w-full"} cursor-pointer  mb-4 h_24  rounded z-10 
+        className={`${className ? className : "relative w-full"}   mb-4 h_24  rounded z-10 
          ${dropdownOpen ? " " : "overflow-hidden" } ${type == "solid" ? "text-almostBlack " : "border border-almostWhite"}`} 
          style={style}
        >

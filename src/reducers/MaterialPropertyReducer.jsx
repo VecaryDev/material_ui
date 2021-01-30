@@ -1,5 +1,7 @@
 import React from "react"
 
+//Modify state on different action types
+
 export const MaterialPropertyReducer =(state, action) => {
 
     switch (action.type) {

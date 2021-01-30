@@ -4,6 +4,7 @@ export const defaultMetaData = {
     activeTexturePopup: ""
 }
 
+//Modify state on different action types
 
 export const MetaDataReducer =(state = defaultMetaData, action) =>  {
    

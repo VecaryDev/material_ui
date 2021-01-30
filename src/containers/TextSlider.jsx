@@ -4,10 +4,7 @@ import {TexturePorpertyContext} from "../context/texturePropertyContext"
 
 import { v4 as uuidv4 } from 'uuid';
 
-
 import {TextureTypes, defaultImages} from "../TestData/DefaultData"
-
-import {payloadGenerator} from "../TestData/generators"
 
 import Slider from "../components/Slider"
 import SliderParamProp from "../components/Slider_Param_Prop"
@@ -33,21 +30,25 @@ function TextSlider(props){
    
     const propName = props.propName || "Parameter"
     const colorSlider = props.colorSlider || false
-
+    
+    //the progress of the slider e.g. 57%
     const [progress, setProgress]= useState(0)
+    //if true slider is not movable
     const [disabled, setDisabled] = useState(false)
+    //Maximum for the slider
     const [max, setMax] = useState(100)
+    //opens TexturePopup if certain conditions are fulfuilled
     const [openPopup, setOpenPopup] = useState(false)
-    const [offset, setOffset] = useState(0)
-
+    //Context API call
     const {globalState, dispatch} = useContext(TexturePorpertyContext)
 
     const sliderRef = useRef(null)
 
+    //If it has been generated it has an ID, otherwise it is undefined so sets it to a new ID
     const newId =  id ? id : uuidv4()
    
     useEffect(() => {
-        
+        // Adding the textureSLider to global state on ceration
         dispatch({type: "ADD_ONE_PROP", payload:{
             id: newId,
             name: propName,
@@ -65,6 +66,7 @@ function TextSlider(props){
     useEffect(() => {
         const globalStateCopy = globalState
 
+        //Gets the saved data based on the passed in path
        if(path){
            const loadEditedProperties = globalState.MaterialPorperties[path.activeProperty].textureTypes[path.activeTexture].tabTypes[path.activeTab]
            const editedPropertyProgress = loadEditedProperties.properties.filter(x => x.id === id)[0]
@@ -74,6 +76,7 @@ function TextSlider(props){
         
         if(globalStateCopy.MaterialPorperties.length > 0 && id === undefined){
            
+            //if component is not generated and has properties open the popup
             dispatch({type: "ADD_ACTIVE_MATERIAL_POPUP", payload: {
                 id: globalStateCopy.MaterialPorperties.filter(x => x.name == propName)[0].id
             }})
@@ -83,6 +86,7 @@ function TextSlider(props){
     }, [openPopup])
 
     useEffect(() => {
+        //update progress on globalstate for "this"
         if(id !== undefined && progress > 0){
             console.log("UPDATE")
             dispatch({type: "UPDATE_POPUP_PROPERTY", payload: {
@@ -93,19 +97,9 @@ function TextSlider(props){
         }
     }, [progress])
 
-    useEffect(() => {
-        if(globalState.MetaData.activeTexturePopup === id) {
-            console.log(propName)
-        }
-    }, [globalState.MetaData.activeTexturePopup])
 
     useEffect(() => {
-        if(globalState.MetaData.offsetY){
-            setOffset(globalState.MetaData.offsetY)
-        }
-    }, [globalState.MetaData.offsetY])
-
-    useEffect(() => {
+        //sets values to user input / defaults
         if(active !== undefined){
             setDisabled(!active)
         }
@@ -158,7 +152,7 @@ function TextSlider(props){
             :
 
             <Slider 
-            offset={offset}   
+            
             hasButton={hasButton != undefined ? hasButton : true} 
             setProgress={setProgress} 
             disabled={disabled} 

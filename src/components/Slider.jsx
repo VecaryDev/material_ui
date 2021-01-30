@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import Draggable from 'react-draggable';
 
-import {map_range, map_float_range} from "../TestData/functions"
+import {map_range, map_float_range} from "../utils/remap"
 
 function Slider(props) {
     const {

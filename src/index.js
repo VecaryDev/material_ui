@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import {TexturePoropertyProvider} from "./context/texturePropertyContext"
 
-const reload = () => window.location.reload()
+
 
 ReactDOM.render(
   <React.StrictMode >
